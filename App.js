@@ -1,114 +1,87 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow
- */
 
-import React, {Fragment} from 'react';
-import {
-  SafeAreaView,
-  StyleSheet,
-  ScrollView,
-  View,
-  Text,
-  StatusBar,
-} from 'react-native';
 
-import {
-  Header,
-  LearnMoreLinks,
-  Colors,
-  DebugInstructions,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+import React, { Component } from 'react';
+import Icon from 'react-native-vector-icons/dist/FontAwesome';
+import { createMaterialBottomTabNavigator } from "react-navigation-material-bottom-tabs";
+import { Provider } from 'react-redux'
+import { Platform, StyleSheet, Text, View, StatusBar, SafeAreaView, AsyncStorage } from 'react-native';
+import { createStackNavigator, createAppContainer, createSwitchNavigator, createDrawerNavigator } from "react-navigation";
 
-const App = () => {
-  return (
-    <Fragment>
-      <StatusBar barStyle="dark-content" />
-      <SafeAreaView>
-        <ScrollView
-          contentInsetAdjustmentBehavior="automatic"
-          style={styles.scrollView}>
-          <Header />
-          {global.HermesInternal == null ? null : (
-            <View style={styles.engine}>
-              <Text style={styles.footer}>Engine: Hermes</Text>
-            </View>
-          )}
-          <View style={styles.body}>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Step One</Text>
-              <Text style={styles.sectionDescription}>
-                Edit <Text style={styles.highlight}>App.js</Text> to change this
-                screen and then come back to see your edits.
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>See Your Changes</Text>
-              <Text style={styles.sectionDescription}>
-                <ReloadInstructions />
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Debug</Text>
-              <Text style={styles.sectionDescription}>
-                <DebugInstructions />
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Learn More</Text>
-              <Text style={styles.sectionDescription}>
-                Read the docs to discover what to do next:
-              </Text>
-            </View>
-            <LearnMoreLinks />
-          </View>
-        </ScrollView>
-      </SafeAreaView>
-    </Fragment>
-  );
-};
+import store from './src/redux/store'
+import MyComponent from './src/components/MyComponent'
 
-const styles = StyleSheet.create({
-  scrollView: {
-    backgroundColor: Colors.lighter,
-  },
-  engine: {
-    position: 'absolute',
-    right: 0,
-  },
-  body: {
-    backgroundColor: Colors.white,
-  },
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-    color: Colors.black,
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-    color: Colors.dark,
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-  footer: {
-    color: Colors.dark,
-    fontSize: 12,
-    fontWeight: '600',
-    padding: 4,
-    paddingRight: 12,
-    textAlign: 'right',
-  },
-});
+/* const TabNavigator = createMaterialBottomTabNavigator(  
+  {  
+      Home: {
+         screen: MyComponent,  
+          navigationOptions:{  
+              tabBarLabel:'Home',  
+              tabBarIcon: ({ tintColor }) => (  
+                  <View>  
+                       
+                  </View>),  
+          }  
+      },  
+      Profile: { screen: MyComponent,  
+          navigationOptions:{  
+              tabBarLabel:'Profile',  
+              tabBarIcon: ({ tintColor }) => (  
+                  <View>  
+                        
+                  </View>),  
+              activeColor: '#f60c0d',  
+              inactiveColor: '#f65a22',  
+              barStyle: { backgroundColor: '#f69b31' },  
+          }  
+      },  
+      Image: { screen: MyComponent,  
+          navigationOptions:{  
+              tabBarLabel:'History',  
+              tabBarIcon: ({ tintColor }) => (  
+                  <View>  
+                        
+                  </View>),  
+              activeColor: '#615af6',  
+              inactiveColor: '#46f6d7',  
+              barStyle: { backgroundColor: '#67baf6' },  
+          }  
+      },  
+      Cart: {  
+          screen: MyComponent,  
+          navigationOptions:{  
+              tabBarLabel:'Cart',  
+              tabBarIcon: ({ tintColor }) => (  
+                  <View>  
+                      
+                  </View>),  
+          }  
+      },  
+  },  
+  {  
+    initialRouteName: "Home",  
+    activeColor: '#f0edf6',  
+    inactiveColor: '#226557',  
+    barStyle: { backgroundColor: '#3BAD87' },  
+  },  
+);  
 
-export default App;
+const AppContainer = createAppContainer(TabNavigator);   */
+const RootStack = createStackNavigator(
+  {
+    Home: MyComponent,
+  },
+  {
+    initialRouteName: 'Home',
+  }
+);
+
+const AppContainer = createAppContainer(RootStack);
+
+export default class App extends React.Component {
+  render() {
+
+    return <Provider store={store}>
+      <AppContainer />
+    </Provider>;
+  }
+}
