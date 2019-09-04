@@ -1,6 +1,7 @@
 // import GlobalStyle from './styles'
 import { Dimensions } from 'react-native'
 import { getStatusBarHeight } from 'react-native-iphone-x-helper'
+import { Images } from '../utils'
 
 export const Constants = {
   color: {
@@ -85,11 +86,11 @@ export const Constants = {
     addorder: "add-order",
     orderlist: "orderList",
     orderDetail: 'order-detail',
-    orderCancle:'cancel-order',
-    profileUpdate:'customer',
-    address:'address',
-    deals:'Deals',
-    googleMapDirectionApiUrl:'https://maps.googleapis.com/maps/api/directions/json?',
+    orderCancle: 'cancel-order',
+    profileUpdate: 'customer',
+    address: 'address',
+    deals: 'Deals',
+    googleMapDirectionApiUrl: 'https://maps.googleapis.com/maps/api/directions/json?',
   },
 
   API_METHOD: {
@@ -116,7 +117,7 @@ export const Constants = {
   },
 
   Screen: {
-    heignt: Dimensions.get('window').height,
+    height: Dimensions.get('window').height,
     width: Dimensions.get('window').width,
     scale: Dimensions.get('window').scale,
     fontScale: Dimensions.get('window').fontScale,
@@ -146,11 +147,11 @@ export const Constants = {
     ios: 'ios'
   },
   TOOLBAR_HEIGHT: {
-    android: 56,
+    android: 44,
     ios: 44,
   },
-  EVENTS:{
-    liveLocation:'LIVE_LOCATION'
+  EVENTS: {
+    liveLocation: 'LIVE_LOCATION'
   },
 
   collapseViewHeight: 200,
@@ -159,20 +160,23 @@ export const Constants = {
     delivery: "delivery"
   },
 
-  ORDER_STATUS:{
-    processing_0:0,
-    processing_1:1,
-    preparing_2 : 2,
-    preparing_3 : 3,
-    on_the_way_4 : 4,
-    delivered_5 : 5,
-    cancelled_6 : 6,
-    confirmed_7 : 7,
+  ORDER_STATUS: {
+    processing_0: 0,
+    processing_1: 1,
+    preparing_2: 2,
+    preparing_3: 3,
+    on_the_way_4: 4,
+    delivered_5: 5,
+    cancelled_6: 6,
+    confirmed_7: 7,
   },
 
 
 
-}
 
+
+
+
+}
 
 

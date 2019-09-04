@@ -7,9 +7,11 @@ import LocalizedStrings from 'react-native-localization';
 export let strings = new LocalizedStrings({
     "en-US": {
         app_name: "Shally Maid",
+        login:"Login"
         
     },
     en: {
-        app_name: "Shally Maid", 
+        app_name: "Shally Maid",
+        login:"Login"
     }
 });

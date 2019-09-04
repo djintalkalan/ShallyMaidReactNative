@@ -31,6 +31,10 @@
 		5415EEB5763D45CD8D84F518 /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A44CB77015844005BDBF0623 /* Octicons.ttf */; };
 		7C16967C89D94B96B73A1394 /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 368199720B13429CBFE0EBEE /* SimpleLineIcons.ttf */; };
 		FCDC2274D5B242279E12694C /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E60A083281494E998DF4E98C /* Zocial.ttf */; };
+		F632A451B6BD42A69C41DDE5 /* AlegreyaSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F9FA1BF296E7429B9E1F05DE /* AlegreyaSans-Bold.ttf */; };
+		7BF2C2CB98E642DC9BEAA5BA /* AlegreyaSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2298FB2F6F7941EAB6A194AF /* AlegreyaSans-Light.ttf */; };
+		62B076AADA2142F1AF52396A /* AlegreyaSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5D246AA5221D49D8B72A1E82 /* AlegreyaSans-Regular.ttf */; };
+		B784044CE1684BA0AE32B4EC /* AlegreyaSans-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 917CC966EB9E4A91BAECA7A1 /* AlegreyaSans-Thin.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -82,6 +86,10 @@
 		A44CB77015844005BDBF0623 /* Octicons.ttf */ = {isa = PBXFileReference; name = "Octicons.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		368199720B13429CBFE0EBEE /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; name = "SimpleLineIcons.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		E60A083281494E998DF4E98C /* Zocial.ttf */ = {isa = PBXFileReference; name = "Zocial.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		F9FA1BF296E7429B9E1F05DE /* AlegreyaSans-Bold.ttf */ = {isa = PBXFileReference; name = "AlegreyaSans-Bold.ttf"; path = "../src/assets/fonts/AlegreyaSans-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		2298FB2F6F7941EAB6A194AF /* AlegreyaSans-Light.ttf */ = {isa = PBXFileReference; name = "AlegreyaSans-Light.ttf"; path = "../src/assets/fonts/AlegreyaSans-Light.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		5D246AA5221D49D8B72A1E82 /* AlegreyaSans-Regular.ttf */ = {isa = PBXFileReference; name = "AlegreyaSans-Regular.ttf"; path = "../src/assets/fonts/AlegreyaSans-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		917CC966EB9E4A91BAECA7A1 /* AlegreyaSans-Thin.ttf */ = {isa = PBXFileReference; name = "AlegreyaSans-Thin.ttf"; path = "../src/assets/fonts/AlegreyaSans-Thin.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -208,6 +216,10 @@
 				A44CB77015844005BDBF0623 /* Octicons.ttf */,
 				368199720B13429CBFE0EBEE /* SimpleLineIcons.ttf */,
 				E60A083281494E998DF4E98C /* Zocial.ttf */,
+				F9FA1BF296E7429B9E1F05DE /* AlegreyaSans-Bold.ttf */,
+				2298FB2F6F7941EAB6A194AF /* AlegreyaSans-Light.ttf */,
+				5D246AA5221D49D8B72A1E82 /* AlegreyaSans-Regular.ttf */,
+				917CC966EB9E4A91BAECA7A1 /* AlegreyaSans-Thin.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -365,6 +377,10 @@
 				5415EEB5763D45CD8D84F518 /* Octicons.ttf in Resources */,
 				7C16967C89D94B96B73A1394 /* SimpleLineIcons.ttf in Resources */,
 				FCDC2274D5B242279E12694C /* Zocial.ttf in Resources */,
+				F632A451B6BD42A69C41DDE5 /* AlegreyaSans-Bold.ttf in Resources */,
+				7BF2C2CB98E642DC9BEAA5BA /* AlegreyaSans-Light.ttf in Resources */,
+				62B076AADA2142F1AF52396A /* AlegreyaSans-Regular.ttf in Resources */,
+				B784044CE1684BA0AE32B4EC /* AlegreyaSans-Thin.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Platform, StyleSheet, Text, Image, View, TouchableHighlight, TouchableOpacity, SafeAreaView, Button } from 'react-native';
-import { Constants,Images,GlobalStyle} from '../../../utils';
+import { Constants, Images, GlobalStyle } from '../../../utils';
 import { TextBold, TextLite, TextThin, TextRegular } from '../text'
 
 
@@ -13,19 +13,14 @@ class MyStatusBar extends Component {
     }
 
     componentDidMount() {
-        
+
     }
 
-
-    onBackClick = () => {
-        const { navigation } = this.props;
-        navigation.goBack();
-    }
     renderBackButton() {
         if (Platform.OS === Constants.PLATFORM.ios) {
             return (
                 <TouchableOpacity activeOpacity={0.8}
-                    onPress={() => this.onBackClick()}>
+                    onPress={() => this.props.goback()}>
                     <Image source={Images.ic_back_ios}
                         style={{ marginLeft: 5, height: 22, width: 22, }}
                     ></Image>
@@ -34,9 +29,9 @@ class MyStatusBar extends Component {
         } else {
             return (
                 <TouchableOpacity activeOpacity={0.8}
-                    onPress={() => this.onBackClick()}>
+                    onPress={() => this.props.goback()}>
                     <Image source={Images.ic_back_android}
-                        style={{ marginLeft: 15, height: 35, width: 25, }}
+                        style={{ marginLeft: 15, height: 25, width: 25, }}
                     ></Image>
                 </TouchableOpacity>
             )
@@ -50,12 +45,26 @@ class MyStatusBar extends Component {
                 <View style={{
                     flexDirection: 'row',
                     alignItems: 'center',
-                    justifyContent:'center',
-                    width: '90%'
+                    width: '100%'
                 }
                 }>
-                  {/* this.renderBackButton() */}
-                    <TextBold title={this.props.title} textStyle={GlobalStyle.titleTextStyle} />
+                    <View style={{
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        width: '10%'
+                    }
+                    }>
+                        {this.props.goback ? this.renderBackButton() : null}
+                    </View>
+                    <View style={{
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        width: '80%'
+                    }
+                    }><TextBold title={this.props.title} textStyle={GlobalStyle.titleTextStyle} /></View>
+
+
 
                 </View>
             </View>
@@ -63,7 +72,7 @@ class MyStatusBar extends Component {
         )
     }
 
-    
+
     render() {
 
         return (

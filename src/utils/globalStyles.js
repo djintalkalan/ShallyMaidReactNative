@@ -70,7 +70,6 @@ export const GlobalStyle = StyleSheet.create({
     titleTextStyle:{
             fontSize: 18,
             color:Constants.color.white,
-            marginLeft:15,
     }
 
 })
