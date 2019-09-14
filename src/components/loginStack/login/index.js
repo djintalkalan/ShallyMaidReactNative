@@ -1,12 +1,13 @@
 import React, { Component } from 'react'
 import { Constants, strings, GlobalStyle, Images } from '../../../utils'
 import { connect } from 'react-redux'
-import { isLoginAction } from '../../../redux/actions/userData'
+import { isLoginAction ,userDataAction} from '../../../redux/actions/userData'
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 import MyStatusBar from '../../custom/my-status-bar'
 import { TextBold, TextLite, TextThin, TextRegular } from '../../custom/text'
 import NavigationService from '../../../services/NavigationServices'
-import { Platform,AsyncStorage, StyleSheet, Alert, View, Image, SafeAreaView, TextInput, ScrollView, TouchableOpacity } from 'react-native';
+import { loginApi } from '../../../services/APIService'
+import { Platform,AsyncStorage, StyleSheet, Alert, View, Image, SafeAreaView,ActivityIndicator, TextInput, ScrollView, TouchableOpacity } from 'react-native';
 
 
 
@@ -20,7 +21,8 @@ class Login extends Component {
         this.state = {
             isLoading: false,
             phone: '',
-            password: ''
+            password: '',
+            isLoading: false,
         }
     }
     onBackClick = () => {
@@ -28,6 +30,9 @@ class Login extends Component {
     }
 
     componentDidMount() {
+        this.setState({
+            userData:this.props.userData
+        })
         
     }
 
@@ -58,10 +63,79 @@ class Login extends Component {
             return
         }
 
-        AsyncStorage.setItem(Constants.STORAGE_KEY.userData, JSON.stringify({phone:phone,password:password}));
-        AsyncStorage.setItem(Constants.STORAGE_KEY.isLogin, JSON.stringify(({ isLogin: true })));
-        this.props.isLoginAction(true)
-        NavigationService.navigate("MainStack")
+        this.callLoginApi();
+
+        // AsyncStorage.setItem(Constants.STORAGE_KEY.userData, JSON.stringify({phone:phone,password:password}));
+        // AsyncStorage.setItem(Constants.STORAGE_KEY.isLogin, JSON.stringify(({ isLogin: true })));
+        // this.props.isLoginAction(true)
+        // NavigationService.navigate("MainStack")
+    }
+
+    callLoginApi() {
+
+        const param = {
+            cust_phone: this.state.phone,
+            cust_password: this.state.password,
+        }
+
+        this.setState({
+            isLoading: true,
+        })
+
+        let url = Constants.URL.baseURL + '/'  + Constants.URL.vesrion + '/' + Constants.URL.login
+
+        loginApi(url, param).then(res => {
+            
+            if (res && res.success) {
+                this.setState({
+                    isLoading: false,
+                }, () => {
+                    if (res.data) {
+                        AsyncStorage.setItem(Constants.STORAGE_KEY.userData, JSON.stringify(res.data));
+                        AsyncStorage.setItem(Constants.STORAGE_KEY.isLogin, JSON.stringify(true));
+                        this.props.userDataAction(res.data)
+                        this.props.isLoginAction(true)
+                        NavigationService.navigate("MainStack")
+                    }
+                })
+            } else {
+                this.setState({
+                    isLoading: false,
+                })
+                if (res && res.error) {
+                    alert(res.error)
+                }
+            }
+
+        }).catch(err => {
+            this.setState({
+                isLoading: false,
+            })
+            setTimeout(() => {
+                if (err) {
+                    alert(JSON.stringify(err));
+                }
+            }, 100);
+        });
+    }
+
+    renderProgressBar() {
+        if (this.state.isLoading) {
+            return (
+                <View style={GlobalStyle.activityIndicatorView}>
+                    <View style={GlobalStyle.activityIndicatorWrapper}>
+                        <ActivityIndicator
+                            size={"large"}
+                            color={Constants.color.primary}
+                            animating={true} />
+                    </View>
+                </View>
+
+            )
+        } else {
+            return
+        }
+
     }
 
     showErrorAlert = (msg) => {
@@ -83,6 +157,7 @@ class Login extends Component {
 
     render() {
         console.log("selectedKey" + JSON.stringify(this.state))
+       
         return (
             <View style={styles.container}>
                 <SafeAreaView style={{ backgroundColor: Constants.color.primary }} />
@@ -98,7 +173,7 @@ class Login extends Component {
                             </View>
                             <View style={styles.container}>
 
-                                {/*Email Field*/}
+                                {/*Phone Field*/}
                                 <View style={{
                                     flexDirection: 'row',
                                     borderRadius: 5,
@@ -175,13 +250,14 @@ class Login extends Component {
                                         </TouchableOpacity>
                            
                                 
-                                {/*End Password Field*/}
+                                {/*End Button Field*/}
 
                             </View>
 
                         </View>
                     </View>
                 </ScrollView>
+                {this.renderProgressBar()}
             </View>
 
         );
@@ -192,12 +268,12 @@ class Login extends Component {
 
 function mapStateToProps(state) {
     return {
-        selectedTab: state.selectedTab,
+        userData: state.userData,
         isLogin: state.isLogin,
     }
 }
 
-export default connect(mapStateToProps, { isLoginAction })(Login)
+export default connect(mapStateToProps, { isLoginAction,userDataAction})(Login)
 
 const styles = StyleSheet.create({
     container: {

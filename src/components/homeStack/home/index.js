@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Image, Text, TextInput, FlatList, TouchableOpacity, TouchableHighlight, ImageBackground } from 'react-native';
+import { View, StyleSheet, Image, ActivityIndicator, AsyncStorage, FlatList, TouchableOpacity, TouchableHighlight, ImageBackground } from 'react-native';
 import { TextBold } from '../../custom/text'
 import { SafeAreaView } from 'react-navigation';
-import { Constants, Images } from '../../../utils';
+import { Constants, Images,GlobalStyle } from '../../../utils';
 import MyStatusBar from '../../custom/my-status-bar'
 import Carousel from 'react-native-looped-carousel';
+import { connect } from 'react-redux'
+import { isLoginAction, userDataAction } from '../../../redux/actions/userData'
 import styles from './style';
 import NavigationService from '../../../services/NavigationServices';
-import {AppMainData} from '../../../utils/appMainData'
-
+import { serviceListApi } from '../../../services/APIService'
 
 class Home extends Component {
 	static navigationOptions = {
@@ -24,38 +25,66 @@ class Home extends Component {
 				//alert(dat[9])
 			}
 		}
+		AsyncStorage.getItem(Constants.STORAGE_KEY.userData, (error, result) => {
+			if (error) {
+				console.log("ERROR:" + JSON.stringify(error))
+			}
+			else {
+				if (result) {
+					console.log("USER_DATA_RESULT:" + result)
+					result = JSON.parse(result)
+					this.props.userDataAction(result)
+				}
+			}
+		})
+
+		AsyncStorage.getItem(Constants.STORAGE_KEY.isLogin, (error, result) => {
+			if (error) {
+				console.log("ERROR:" + JSON.stringify(error))
+			}
+			else {
+				if (result) {
+					console.log("USER_DATA_RESULT:" + result)
+					result = JSON.parse(result)
+					this.props.isLoginAction(result)
+				}
+			}
+		})
+
 		this.setState({ data: dat })
+		this.callServiceListApi()
 	}
 
 	constructor(props) {
 		super(props)
+
 		this.state = {
 			username: '',
 			password: '',
-			loading: false,
 			data: [],
-			}
+			serviceList: [],
+			isLoading: false,
+		}
 	}
 
 	cardPressed(item, index) {
-		console.log("Cardf" + item.title)
 		NavigationService.navigate('SecondHome', { navigateFrom: "Home", data: item })
 	}
 
 	_renderItem(item, index) {
 		return (
 			<TouchableOpacity
-
+				activeOpacity={0.85}
 				onPress={() => { }}
 				style={{
-					width: Constants.Screen.width, height: 140, alignItems: "center", justifyContent: 'flex-start'
+					width: Constants.Screen.width, height: 160, alignItems: "center", justifyContent: 'flex-start'
 					, elevation: 3, overflow: 'hidden',
 				}}>
 
 				<Image source={{ uri: item }}
 					style={{
 						width: Constants.Screen.width - 20,
-						height: 140,
+						height: 160,
 						borderRadius: 5,
 						resizeMode: 'stretch',
 
@@ -72,10 +101,10 @@ class Home extends Component {
 				<View style={{ width: '50%', justifyContent: 'center', paddingLeft: 15 }}>
 					<View style={{ alignItems: 'flex-start', }}>
 						<TextBold
-							title={item.title}
+							title={item.name}
 							textStyle={{ color: "#555555", fontSize: 14 }} />
 						<TextBold
-							title={item.desc}
+							title={item.description}
 							textStyle={{ color: "#8B0000", fontSize: 11 }} />
 					</View>
 				</View>
@@ -98,9 +127,66 @@ class Home extends Component {
 		)
 	}
 
+	callServiceListApi() {
+
+
+		this.setState({
+			isLoading: true,
+		})
+		let url = Constants.URL.baseURL + '/' + Constants.URL.vesrion + '/' + Constants.URL.serviceList
+
+		serviceListApi(url).then(res => {
+
+			if (res && res.success) {
+				console.log("DEALS_RESPONSE:" + JSON.stringify(res))
+				this.setState({
+					isLoading: false,
+					serviceList: res.data
+				})
+
+			} else {
+				this.setState({
+					isLoading: false,
+				}, () => {
+					if (res && res.error) {
+						alert(res.error)
+					}
+				})
+			}
+
+		}).catch(err => {
+			this.setState({
+				isLoading: false,
+			})
+			setTimeout(() => {
+				if (err) {
+					alert(JSON.stringify(err));
+				}
+			}, 100);
+		});
+
+	}
+
+	renderProgressBar() {
+        if (this.state.isLoading) {
+            return (
+                <View style={GlobalStyle.activityIndicatorView}>
+                    <View style={GlobalStyle.activityIndicatorWrapper}>
+                        <ActivityIndicator
+                            size={"large"}
+                            color={Constants.color.primary}
+                            animating={true} />
+                    </View>
+                </View>
+
+            )
+        } else {
+            return
+        }
+
+    }
 
 	render() {
-		console.log("Login");
 		return (
 			<View style={styles.container}>
 				<SafeAreaView style={{ backgroundColor: Constants.color.primary }} />
@@ -109,17 +195,16 @@ class Home extends Component {
 					<View style={{ marginTop: 10, marginBottom: 10 }}>
 						{this.state.data.length > 0 ?
 							<Carousel
-								delay={2000}
-								style={{ width: Constants.Screen.width, height: 140 }}
+								delay={5000}
+								style={{ width: Constants.Screen.width, height: 160 }}
 								autoplay
-								onAnimateNextPage={(p) => console.log(p)}
 							>
 								{this.state.data.map((item, index) => this._renderItem(item, index))}
 							</Carousel> : null}
 					</View>
 					{<FlatList
-						data={AppMainData}
-						keyExtractor={item => item.order_number}
+						data={this.state.serviceList}
+						keyExtractor={item => item.id}
 						// ListHeaderComponent={this.renderHeader}
 						renderItem={({ item, index }) => (
 							this.renderFlatListItem({ item, index })
@@ -127,10 +212,17 @@ class Home extends Component {
 
 
 				</View>
-
+				{this.renderProgressBar()}
 			</View>
 		);
 	}
 }
 
-export default Home 
+function mapStateToProps(state) {
+	return {
+		userData: state.userData,
+		isLogin: state.isLogin,
+	}
+}
+
+export default connect(mapStateToProps, { userDataAction, isLoginAction })(Home)

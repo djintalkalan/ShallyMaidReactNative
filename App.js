@@ -29,7 +29,7 @@ import SecondDeals from './src/components/dealsStack/second';
 
 //Profile tab screens
 import MyProfile from './src/components/myProfileStack/myProfile';
-import SecondMyProfile from './src/components/myProfileStack/second';
+import ChangePassword from './src/components/myProfileStack/change-password';
 
 
 //Login Stack
@@ -50,7 +50,11 @@ const HomeStack = createStackNavigator({
 	SelectionScreen:{
 		screen:SelectionScreen
 	}
-});
+}, {
+    // initialRoutßeName: 'RestaurantMenu',
+    initialRouteName: 'Home',
+    // initialRouteName: 'RestaurantMenu',
+  });
 
 //Deals Stack
 const DealsStack = createStackNavigator({
@@ -67,10 +71,32 @@ const MyProfileStack = createStackNavigator({
 	MyProfile: {
 		screen: MyProfile
 	},
-	SecondMyProfile: {
-		screen: SecondMyProfile
+	ChangePassword: {
+		screen: ChangePassword
 	},
 });
+
+MyProfileStack.navigationOptions = ({ navigation }) => {
+	let tabBarVisible = true;
+	if (navigation.state.index > 0) {
+	  tabBarVisible = false;
+	}
+  
+	return {
+	  tabBarVisible,
+	};
+  };
+
+  HomeStack.navigationOptions = ({ navigation }) => {
+	let tabBarVisible = true;
+	if (navigation.state.index > 0) {
+	  tabBarVisible = false;
+	}
+  
+	return {
+	  tabBarVisible,
+	};
+  };
 
 const TabNavigator = createBottomTabNavigator({
 	Home: {
@@ -90,7 +116,7 @@ const TabNavigator = createBottomTabNavigator({
 			),
 			tabBarLabel: 'Home',
 		})
-	},
+	},/* 
 	Deals: {
 		screen: DealsStack,
 		navigationOptions: () => ({
@@ -108,7 +134,7 @@ const TabNavigator = createBottomTabNavigator({
 			),
 			tabBarLabel: 'Deals',
 		})
-	},
+	}, */
 	MyProfile: {
 		screen: MyProfileStack,
 		navigationOptions: () => ({
@@ -116,10 +142,10 @@ const TabNavigator = createBottomTabNavigator({
 				<View style={{ height: '100%', width: '100%' }}>
 					{tintColor == '#808080' ?
 						<View style={{ borderTopColor: 'white', borderWidth: 2, height: '100%', width: '100%', borderColor: 'white', justifyContent: 'center', alignItems: 'center' }}>
-							<Image source={Images.ic_home_grey} style={{ width: 20, height: 20, resizeMode: "contain" }}></Image>
+							<Image source={Images.ic_my_profile_grey} style={{ width: 20, height: 20, resizeMode: "contain" }}></Image>
 						</View> :
 						<View style={{ borderTopColor: tintColor, borderWidth: 2, height: '100%', width: '100%', borderColor: 'white', justifyContent: 'center', alignItems: 'center' }}>
-							<Image source={Images.ic_home_primary} style={{ width: 25, height: 25, resizeMode: "contain" }}></Image>
+							<Image source={Images.ic_my_profile_primary} style={{ width: 25, height: 25, resizeMode: "contain" }}></Image>
 						</View>
 					}
 				</View>
@@ -132,10 +158,13 @@ const TabNavigator = createBottomTabNavigator({
 		tabBarOptions: {
 			activeTintColor: Constants.color.primary,
 			inactiveTintColor: '#808080',
+		
+		keyboardHidesTabBar:true,
 			// showLabel: false
 		},
-		lazy: true
+		lazy: true,
 	});
+	
 
 export default class App extends Component {
 	state = {
@@ -148,13 +177,15 @@ export default class App extends Component {
 	
 		console.log('App')
 		try {
-			const isLoginC = await AsyncStorage.getItem(Constants.STORAGE_KEY.isLogin);
-			isLogin = (JSON.parse(isLoginC)).isLogin
+			let isLogin = await AsyncStorage.getItem(Constants.STORAGE_KEY.isLogin);
+			let userData = await AsyncStorage.getItem(Constants.STORAGE_KEY.userData);
+			isLogin = JSON.parse(isLogin)
+			userData = JSON.parse(userData)
 			let isLoginI
-			if (isLogin == true) {
+			if (isLogin) {
 				isLoginI = 1
 			}
-			if (isLogin == false) {
+			else {
 				isLoginI = 2
 			}
 			this.setState({ isLoginI: isLoginI }, () => {
@@ -166,7 +197,7 @@ export default class App extends Component {
 			// NavigationService.navigate(token ? 'MainStack' : 'LoginStack');
 		} catch (e) {
 			// error reading value
-		//	alert(e)
+			alert(e)
 			
 			isLoginI = 3
 			this.setState({ isLoginI: isLoginI }, () => {

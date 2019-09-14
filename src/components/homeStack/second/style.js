@@ -8,10 +8,17 @@ export default StyleSheet.create({
     },
     flatListTouch: {
         borderRadius: 5, overflow: "hidden",
-        elevation: 0.5,
+        elevation: 1,
         margin: 2,
         flexDirection: 'row',
     },
+    subcatItemTouch:{
+        overflow: "hidden",
+        elevation: 0.5,
+        margin: 5,
+        flexDirection: 'row',
+    }
+
     
 
 })

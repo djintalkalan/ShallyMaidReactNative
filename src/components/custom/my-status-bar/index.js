@@ -31,7 +31,7 @@ class MyStatusBar extends Component {
                 <TouchableOpacity activeOpacity={0.8}
                     onPress={() => this.props.goback()}>
                     <Image source={Images.ic_back_android}
-                        style={{ marginLeft: 15, height: 25, width: 25, }}
+                        style={{ marginLeft: 15, height: 28, width: 28, }}
                     ></Image>
                 </TouchableOpacity>
             )

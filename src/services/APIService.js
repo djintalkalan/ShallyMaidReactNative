@@ -44,11 +44,21 @@ async function fetchApiData(urlString, body, methodType) {
 
 
 
-export async function OrderCancleApi(url, param) {
+
+
+export async function loginApi(url, param) {
     return fetchApiData(url, param, Constants.API_METHOD.post)
 }
 
-export async function directionApi(url){
+export async function updatePasswordApi(url, param) {
+    return fetchApiData(url, param, Constants.API_METHOD.post)
+}
+
+export async function placeOrderApi(url, param) {
+    return fetchApiData(url, param, Constants.API_METHOD.post)
+}
+
+export async function serviceListApi(url){
     return fetchApiData(url,'',Constants.API_METHOD.get)
 }
 
