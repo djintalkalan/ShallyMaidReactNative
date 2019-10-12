@@ -4,7 +4,8 @@ import MyStatusBar from '../../custom/my-status-bar'
 import { connect } from 'react-redux'
 import styles from './style'
 import { Constants, Images, GlobalStyle, strings } from '../../../utils';
-import { TextBold, TextLite, TextRegular, } from '../../custom/text'
+import { TextHeading, TextLite, TextRegular, } from '../../custom/text'
+import Ripple from 'react-native-material-ripple';
 import NavigationService from '../../../services/NavigationServices';
 import { getMyOrderApi } from '../../../services/APIService'
 
@@ -171,42 +172,60 @@ class MyOrders extends Component {
 	renderFlatListItem({ item, index }) {
 		console.log("ITEM", JSON.stringify(item))
 		return (
-			<TouchableOpacity style={styles.mainCard}
-			//onPress={() => this.orderClicked(item.order_number, index)}
-			>
+
+			<Ripple
+				style={styles.mainCard}
+				//onPress={() => { this.cardPressed(item, index) }}
+				rippleColor={Constants.color.black}>
+				<View style={{ flexDirection: 'row', margin: 10, alignItems: 'center' }}>
+					<TextRegular textStyle={{ fontSize: 10 }} title={"Placed - " + item.addedon} />
+				</View>
+				<View style={{ width: '100%', height: 0.8, backgroundColor: "#bfbfbf" }} />
 				{/* View For Image and Items*/}
-				<View style={{ flexDirection: 'row' }}>
+				<View style={{ flexDirection: 'row', padding: 15 }}>
 					{/* View For Image */}
 					<View style={styles.viewImg}>
+						<Image style={styles.imageThumbnail}
+							source={{ uri: Constants.URL.baseURL + Constants.URL.assets + Constants.URL.icons + item.icon }} />
 						<Image source={item.selectedService.img
-							? { uri: item.selectedService.img } : Images.maid}
-							resizeMode='contain'
+							? { uri: Constants.URL.baseURL + Constants.URL.assets + Constants.URL.img + item.selectedService.img } : Images.maid}
+							resizeMode='stretch'
 							style={styles.imgLogo} ></Image>
 					</View>
 					{/* View For Items */}
 					<View style={styles.viewItems}>
 						<View style={styles.viewInputRow}>
-							<View style={{ width: "100%" }}>
-								<TextBold title={"Service: " + item.selectedService.name} textStyle={styles.textItemName} />
+							<View style={{ width: '40%' }}>
+								<TextHeading title={"Service: "} textStyle={styles.textItemName} />
 							</View>
+
+							<TextHeading title={item.selectedService.name} textStyle={styles.textItemValue} />
 						</View>
-						<TextRegular title={
-							"Category: " + item.selectedCategory.name + (item.selectedSubcategory == null ? "" : "-" + item.selectedSubcategory.name)
-						} textStyle={styles.textItems} />
-						<TextRegular title={strings.dateString + ": " + item.addedon} textStyle={styles.textItems} />
-
-						<TextRegular title={"Order number: " + item.order_number} textStyle={styles.textItems} />
-
+						<View style={styles.viewInputRow}>
+							<TextHeading title={"Category: "} textStyle={styles.textItemName} />
+							<TextHeading title={item.selectedCategory.name + (item.selectedSubcategory == null ? "" : "-" + item.selectedSubcategory.name)}
+								textStyle={styles.textItemValue} />
+						</View>
+						<View style={styles.viewInputRow}>
+							<TextHeading title={"Order number: "} textStyle={styles.textItemName} />
+							<TextHeading title={item.order_number}
+								textStyle={styles.textItemValue} />
+						</View>
+						<View style={styles.viewInputRow}>
+							<Text title={"Order number: "} textStyle={styles.textItemName} />
+							<TextHeading title={item.order_number}
+								textStyle={styles.textItemValue} />
+						</View>
 					</View>
 				</View>
 				{/* View For Buttons */}
 				<View style={{ flexDirection: 'row', backgroundColor: 'white', justifyContent: 'flex-end' }}>
 					{/* Button Status */}
 					<View style={styles.buttonStatus}   >
-						<TextBold title={this.calculateStatus(item.status)} textStyle={styles.textAmountProcessing} />
+						<TextHeading title={this.calculateStatus(item.status)} textStyle={styles.textAmountProcessing} />
 					</View>
 				</View>
-			</TouchableOpacity>
+			</Ripple>
 
 		)
 	}
@@ -219,17 +238,17 @@ class MyOrders extends Component {
 			<View style={styles.container}>
 				<SafeAreaView style={{ backgroundColor: Constants.color.primary }} />
 				<MyStatusBar title={strings.my_orders} goback={() => this.onBackClick()} />
-				<View style={{ flex: 1, paddingTop: 10, paddingBottom: 10, paddingHorizontal: 5 }}>
-					{this.state.orderList == null?null:
-					<FlatList
-						// onRefresh={this.mRefresh}
-						// refreshing={this.state.isRefreshing}
-						data={this.state.orderList}
-						keyExtractor={item => item.order_number}
-						// ListHeaderComponent={this.renderHeader}
-						onEndReached={() => { this.callgetMyOrdersApi() }}
-						onEndReachedThreshold={0.1}
-						renderItem={({ item, index }) => this.renderFlatListItem({ item, index })} />}
+				<View style={{ flex: 1, paddingBottom: 10, paddingHorizontal: 5 }}>
+					{this.state.orderList == null ? null :
+						<FlatList
+							// onRefresh={this.mRefresh}
+							// refreshing={this.state.isRefreshing}
+							data={this.state.orderList}
+							keyExtractor={item => item.order_number}
+							// ListHeaderComponent={this.renderHeader}
+							onEndReached={() => { this.callgetMyOrdersApi() }}
+							onEndReachedThreshold={0.1}
+							renderItem={({ item, index }) => this.renderFlatListItem({ item, index })} />}
 
 				</View>
 				{this.renderProgressBar()}

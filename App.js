@@ -31,7 +31,7 @@ import SecondDeals from './src/components/dealsStack/second';
 //Profile tab screens
 import MyProfile from './src/components/myProfileStack/myProfile';
 import ChangePassword from './src/components/myProfileStack/change-password';
-import MyOrders from './src/components/myProfileStack/my-orders';
+import MyOrders from './src/components/myBookingStack/my-orders';
 import { TextRegular, TextLite } from './src/components/custom/text';
 
 
@@ -90,9 +90,6 @@ const MyProfileStack = createStackNavigator({
 	},
 	ChangePassword: {
 		screen: ChangePassword
-	},
-	MyOrders: {
-		screen: MyOrders
 	}
 });
 

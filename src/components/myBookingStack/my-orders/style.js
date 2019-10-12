@@ -5,6 +5,7 @@ import { Fonts, Constants, strings } from '../../../utils'
 export default StyleSheet.create({
     container: {
         flex: 1,
+        backgroundColor:"#f0f0f0"
     },
     flatListTouch: {
         borderRadius: 5,
@@ -30,15 +31,14 @@ export default StyleSheet.create({
     },
 
     mainCard: {
-        borderColor: Constants.color.white,
-        borderBottomColor: Constants.color.gray,
-        borderWidth: 1.5,
-        padding: 2
+        borderRadius:10,
+        backgroundColor:'white',
+        margin:8
     },
     viewImg: {
         width: '30%',
-        height: 100,
-        padding: 5,
+        height: 80,
+        padding: 10,
         alignItems: "center",
         justifyContent: "center",
     },
@@ -54,12 +54,16 @@ export default StyleSheet.create({
         flexDirection: 'row', 
         width: '100%'
     },
-
     textItemName: {
         color: Constants.color.black,
-        marginTop: 3,
-        marginBottom: 10,
-        fontSize: 16,
+        fontSize: 11,
+        fontWeight:'900'
+    },
+    
+    textItemValue: {
+        color: "#808080",
+        fontSize: 10,
+        fontWeight:'900'
     },
     textItems: {
         width: '100%',
@@ -80,6 +84,10 @@ export default StyleSheet.create({
         color: Constants.color.primary,
         fontSize: 14,
     },
+    imageThumbnail: {
+        width:40,
+        height:40
+      },
     
 
 })
