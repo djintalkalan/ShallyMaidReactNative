@@ -13,10 +13,12 @@
     "moment": "^2.24.0",
     "react": "16.8.6",
     "react-native": "0.60.5",
+    "react-native-cardview": "^2.0.3",
     "react-native-gesture-handler": "^1.4.1",
     "react-native-iphone-x-helper": "^1.2.1",
     "react-native-localization": "^2.1.5",
     "react-native-looped-carousel": "^0.1.13",
+    "react-native-material-ripple": "^0.9.1",
     "react-native-modal-datetime-picker": "^7.5.0",
     "react-native-radio-button": "^2.0.1",
     "react-native-simple-toast": "0.0.8",
@@ -24,7 +26,8 @@
     "react-native-swiper": "^1.5.14",
     "react-navigation": "^3.12.0",
     "react-redux": "^7.1.0",
-    "redux": "^4.0.4"
+    "redux": "^4.0.4",
+    "rn-viewpager": "^1.2.9"
   },
   "devDependencies": {
     "@babel/core": "7.5.5",
@@ -38,10 +41,6 @@
   },
   "jest": {
     "preset": "react-native"
-  },
-  "rnpm": {
-    "assets": [
-      "./src/assets/fonts/."
-    ]
   }
+  
 }

@@ -50,11 +50,19 @@ export async function loginApi(url, param) {
     return fetchApiData(url, param, Constants.API_METHOD.post)
 }
 
+export async function signUpApi(url, param) {
+    return fetchApiData(url, param, Constants.API_METHOD.post)
+}
+
 export async function updatePasswordApi(url, param) {
     return fetchApiData(url, param, Constants.API_METHOD.post)
 }
 
 export async function placeOrderApi(url, param) {
+    return fetchApiData(url, param, Constants.API_METHOD.post)
+}
+
+export async function getMyOrderApi(url, param) {
     return fetchApiData(url, param, Constants.API_METHOD.post)
 }
 

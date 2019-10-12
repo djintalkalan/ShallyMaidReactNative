@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import { View, Alert, AsyncStorage, Text, TextInput, TouchableOpacity, FlatList, SafeAreaView } from 'react-native';
-import { TextBold } from '../../custom/text'
+import { View, Alert, AsyncStorage, Image, TextInput, TouchableOpacity, FlatList, SafeAreaView } from 'react-native';
+import { TextBold, TextRegular } from '../../custom/text'
 import MyStatusBar from '../../custom/my-status-bar'
 import styles from './style'
 import { connect } from 'react-redux'
 import { Constants, strings, GlobalStyle, Images } from '../../../utils'
-import { isLoginAction ,userDataAction} from '../../../redux/actions/userData'
+import { isLoginAction, userDataAction } from '../../../redux/actions/userData'
 import NavigationService from '../../../services/NavigationServices';
 
 
@@ -18,9 +18,9 @@ class MyProfile extends Component {
 	constructor(props) {
 		super(props)
 		this.state = {
-		
+
 			loading: false,
-			data:[{
+			data: [{
 				id: 1,
 				title: 'Change Password'
 			},
@@ -33,19 +33,20 @@ class MyProfile extends Component {
 				title: 'Log Out'
 			},
 
-		]
+			]
 		}
 	}
 
-	cardPressed(item,index){
-		switch(index){
+	cardPressed(index) {
+		switch (index) {
 			case 0:
 				NavigationService.navigate('ChangePassword')
 				break;
-				case 1:
+			case 1:
+				NavigationService.navigate('MyOrders')
 				break;
-				case 2:
-					this.showLogoutAlert();
+			case 2:
+				this.showLogoutAlert();
 				break;
 
 		}
@@ -62,7 +63,6 @@ class MyProfile extends Component {
 						<TextBold
 							title={item.title}
 							textStyle={{ color: "#555555", fontSize: 14 }} />
-
 					</View>
 				</View>
 
@@ -76,39 +76,39 @@ class MyProfile extends Component {
 		this.props.userDataAction(null)
 		NavigationService.navigate("LoginStack")
 		alert("Succefully Logged out")
-	  }
-	
-	  showLogoutAlert = () => {
+	}
+
+	showLogoutAlert = () => {
 		Alert.alert(
-		  strings.logout_dialog_title,
-		  strings.logout_dialog_message,
-		  [
-			//   {text: 'Ask me later', onPress: () => console.log('Ask me later pressed')},
-			{
-			  text: strings.cancel,
-			  onPress: () => console.log('Cancel Pressed'),
-			  style: 'cancel',
-			},
-			{
-			  text: strings.ok,
-			  onPress: () => this.onLogoutAlertClick()
-			},
-		  ],
-		  { cancelable: false },
+			strings.logout_dialog_title,
+			strings.logout_dialog_message,
+			[
+				//   {text: 'Ask me later', onPress: () => console.log('Ask me later pressed')},
+				{
+					text: strings.cancel,
+					onPress: () => console.log('Cancel Pressed'),
+					style: 'cancel',
+				},
+				{
+					text: strings.ok,
+					onPress: () => this.onLogoutAlertClick()
+				},
+			],
+			{ cancelable: false },
 		);
-	  }
-	
+	}
+
 
 	render() {
-		if(!this.props.isLogin){
-            return null
-        }
+		if (!this.props.isLogin) {
+			return null
+		}
 		return (
 			<View style={styles.container}>
 				<SafeAreaView style={{ backgroundColor: Constants.color.primary }} />
-				<MyStatusBar title={"Profile"} />
-				<View style={{ flex: 1, paddingTop: 10, paddingBottom: 10, paddingHorizontal: 25 }}>
-
+				<MyStatusBar title={"My Profile"} />
+				<View style={{ flex: 1, paddingTop: 10, paddingBottom: 10, paddingHorizontal: 25, alignItems: 'center' }}>
+					{/* 
 					<View style={{ flexDirection: 'row', width: '100%' }} >
 						<TextBold title={"Name:"} textStyle={{ padding: 2, width: '30%' }} />
 						<TextBold title={this.props.userData.cust_name}
@@ -131,6 +131,45 @@ class MyProfile extends Component {
 							this.renderFlatListItem({ item, index })
 						)} />
 
+ */}
+
+					<View style={{ width: 100, height: 100, borderRadius: 50, backgroundColor: 'black', marginVertical: 25 }} />
+
+					<View style={styles.myProfileListView} >
+						<View style={styles.profileItem} >
+							<Image style={styles.inputIcon} source={Images.ic_my_profile_primary} />
+							<TextRegular textStyle={styles.textProfileItem} title={this.props.userData.cust_phone} />
+						</View>
+						<View style={styles.verticalLine} />
+						<View style={styles.profileItem} >
+							<Image style={styles.inputIcon} source={Images.ic_my_profile_primary} />
+							<TextRegular textStyle={styles.textProfileItem} title={this.props.userData.cust_name} />
+						</View>
+						<View style={styles.verticalLine} />
+						<View style={styles.profileItem} >
+							<Image style={styles.inputIcon} source={Images.ic_my_profile_primary} />
+							<TextRegular textStyle={styles.textProfileItem} title={"*******"} />
+						</View>
+					</View>
+
+
+					<View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 35 }}>
+
+						<TouchableOpacity
+							onPress={() => { this.cardPressed(0) }}
+							style={styles.touchLogin}>
+							<TextBold title={strings.change_password} textStyle={styles.textButtonLogin} />
+						</TouchableOpacity>
+					</View>
+
+					<View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 20 }}>
+
+						<TouchableOpacity
+							onPress={() => { this.cardPressed(2) }}
+							style={styles.touchLogin}>
+							<TextBold title={strings.logout} textStyle={styles.textButtonLogin} />
+						</TouchableOpacity>
+					</View>
 
 				</View>
 			</View>
@@ -139,10 +178,10 @@ class MyProfile extends Component {
 }
 
 function mapStateToProps(state) {
-    return {
-        userData: state.userData,
-        isLogin: state.isLogin,
-    }
+	return {
+		userData: state.userData,
+		isLogin: state.isLogin,
+	}
 }
 
-export default connect(mapStateToProps, {isLoginAction,userDataAction})(MyProfile)
+export default connect(mapStateToProps, { isLoginAction, userDataAction })(MyProfile)

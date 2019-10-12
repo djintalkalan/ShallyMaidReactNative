@@ -7,11 +7,15 @@ export default StyleSheet.create({
         flex: 1,
     },
     flatListTouch: {
-        borderRadius: 5, overflow: "hidden",
-        elevation: 0.5,
-        margin: 2,
+        borderRadius: 10, overflow: "hidden",
+        backgroundColor:'rgba(0,0,0, 0.65)',
         flexDirection: 'row',
+        overflow:'hidden'
     },
+    imageThumbnail: {
+        width:40,
+        height:40
+      },
     
 
 })

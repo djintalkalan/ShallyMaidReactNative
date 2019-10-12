@@ -68,7 +68,8 @@ export const GlobalStyle = StyleSheet.create({
         backgroundColor: Constants.color.seperator_color_single_food
     },
     titleTextStyle:{
-            fontSize: 18,
+            fontSize: 16,
+            fontWeight:'900',
             color:Constants.color.white,
     }
 

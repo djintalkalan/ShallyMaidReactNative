@@ -5,7 +5,7 @@ import { Images } from '../utils'
 
 export const Constants = {
   color: {
-    primary: '#ff9900',//'#A51A2D',//'#00EF00',//'#A51A2D', #
+    primary:  "#2dc137" ,  // '#ff9900',//'#A51A2D',//'#00EF00',//'#A51A2D', #
     primaryDark: '#ff9900',//'#8D1E30',
     accentColor: '#FF4081',
     drakgray: '#92929A',
@@ -64,13 +64,19 @@ export const Constants = {
   URL: {
     HOME_URL: 'http://192.168.0.102',
     STAGING_URL: 'http://192.168.0.102',
-    baseURL: 'http://192.168.0.102',
+    //baseURL: 'http://192.168.0.102',
+    baseURL: 'https://kartforu.com/deepak',
+    assets:'/shally_maid_api/assets/',
+    icons:'icons/',
+    img:'img/',
     vesrion: 'shally_maid_api/api',
     serviceList: "services/read.php",
     serviceSingle: "services/read_single.php",
     login: "customer/login.php",
     updatePassword:"customer/update_password.php",
-    placeOrder:"orders/create.php"
+    placeOrder:"orders/create.php",
+    getOrderList:"orders/read_by_customer.php",
+    signUp:"customer/create.php"
   },
 
   API_METHOD: {

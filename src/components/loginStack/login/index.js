@@ -1,13 +1,13 @@
 import React, { Component } from 'react'
-import { Constants, strings, GlobalStyle, Images } from '../../../utils'
+import { Constants, strings, GlobalStyle, Images, Fonts } from '../../../utils'
 import { connect } from 'react-redux'
-import { isLoginAction ,userDataAction} from '../../../redux/actions/userData'
+import { isLoginAction, userDataAction } from '../../../redux/actions/userData'
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 import MyStatusBar from '../../custom/my-status-bar'
-import { TextBold, TextLite, TextThin, TextRegular } from '../../custom/text'
+import { TextBold,TextBoldItalic,TextItalic, TextLite, TextLightItalic, TextRegular } from '../../custom/text'
 import NavigationService from '../../../services/NavigationServices'
 import { loginApi } from '../../../services/APIService'
-import { Platform,AsyncStorage, StyleSheet, Alert, View, Image, SafeAreaView,ActivityIndicator, TextInput, ScrollView, TouchableOpacity } from 'react-native';
+import { Platform, AsyncStorage, ImageBackground, StyleSheet, Alert, View, Image, SafeAreaView, ActivityIndicator, TextInput, ScrollView, TouchableOpacity } from 'react-native';
 
 
 
@@ -19,7 +19,6 @@ class Login extends Component {
     constructor() {
         super()
         this.state = {
-            isLoading: false,
             phone: '',
             password: '',
             isLoading: false,
@@ -31,9 +30,9 @@ class Login extends Component {
 
     componentDidMount() {
         this.setState({
-            userData:this.props.userData
+            userData: this.props.userData
         })
-        
+
     }
 
     fieldChanged(text, type) {
@@ -50,15 +49,15 @@ class Login extends Component {
         }
     }
 
-    verifyAndLogin(){
+    verifyAndLogin() {
         let phone = this.state.phone;
         let password = this.state.password;
 
-        if(phone.length<10){
+        if (phone.length < 10) {
             this.showErrorAlert("Enter Valid Number")
             return
         }
-        if(password==""){
+        if (password == "") {
             this.showErrorAlert("Enter Password")
             return
         }
@@ -82,10 +81,10 @@ class Login extends Component {
             isLoading: true,
         })
 
-        let url = Constants.URL.baseURL + '/'  + Constants.URL.vesrion + '/' + Constants.URL.login
+        let url = Constants.URL.baseURL + '/' + Constants.URL.vesrion + '/' + Constants.URL.login
 
         loginApi(url, param).then(res => {
-            
+
             if (res && res.success) {
                 this.setState({
                     isLoading: false,
@@ -140,124 +139,106 @@ class Login extends Component {
 
     showErrorAlert = (msg) => {
         Alert.alert(
-          "Error",
-          msg,
-          [
-            //   {text: 'Ask me later', onPress: () => console.log('Ask me later pressed')},
-            {
-              text: "OK",
-              onPress: () => console.log('Cancel Pressed'),
-              style: 'cancel',
-            }
-          ],
-          { cancelable: false },
+            "Error",
+            msg,
+            [
+                //   {text: 'Ask me later', onPress: () => console.log('Ask me later pressed')},
+                {
+                    text: "OK",
+                    onPress: () => console.log('Cancel Pressed'),
+                    style: 'cancel',
+                }
+            ],
+            { cancelable: false },
         );
-      }
+    }
 
 
     render() {
-        console.log("selectedKey" + JSON.stringify(this.state))
-       
+
         return (
             <View style={styles.container}>
                 <SafeAreaView style={{ backgroundColor: Constants.color.primary }} />
-                <ScrollView contentInsetAdjustmentBehavior="automatic"
-                            keyboardShouldPersistTaps='always'>
-                    <View>
-                        <View style={styles.container}>
-                            <View style={styles.logoView}>
-                                <View style={{ borderRadius: 10, width: 50, height: 50, backgroundColor: Constants.color.white }}>
+                <ImageBackground
+                    resizeMode={"cover"}
+                    style={[styles.imgBackground]}
+                    source={Images.img_background}
+                >
 
-                                </View>
-                                <TextBold textStyle={{ padding: 5, color: Constants.color.white, fontSize: 22 }} title={strings.app_name} />
-                            </View>
-                            <View style={styles.container}>
+                    <View
+                        style={{ flex: 1, backgroundColor: 'rgba(0,0,0, 0.80)' }}>
 
-                                {/*Phone Field*/}
-                                <View style={{
-                                    flexDirection: 'row',
-                                    borderRadius: 5,
-                                    margin: 35,
-                                    marginBottom: 25,
-                                    borderColor: Constants.color.primary, borderWidth: 1
-                                }}>
-                                    <View style={{
-                                        width: '20%',
-                                        padding: 8,
-                                        borderRightWidth: 1,
-                                        alignItems: 'center',
-                                        justifyContent: 'center',
-                                        borderRightColor: Constants.color.primary
-                                    }}>
-                                        <Image source={Images.ic_home_primary} style={{ width: 25, height: 25, resizeMode: "contain" }}></Image>
-                                    </View>
-
-
-                                    <View style={{
-                                        width: '80%',
-                                    }}>
-                                        <TextInput style={{ width: '100%', }}
-                                            placeholder={"Enter Phone Number"}
-                                            value={this.state.phone}
-                                            maxLength={10}
-                                            selectionColor={Constants.color.primary}
-                                            keyboardType={"phone-pad"}
-                                            onChangeText={(text) => this.fieldChanged(text, 1)}
-                                        />
-                                    </View>
-                                </View>
-                                {/*End Phone Field*/}
-                                {/*Password Field*/}
-                                <View style={{
-                                    flexDirection: 'row',
-                                    borderRadius: 5,
-                                    margin: 35,
-                                    marginTop: 0,
-                                    borderColor: Constants.color.primary, borderWidth: 1
-                                }}>
-                                    <View style={{
-                                        width: '20%',
-                                        padding: 8,
-                                        borderRightWidth: 1,
-                                        alignItems: 'center',
-                                        justifyContent: 'center',
-                                        borderRightColor: Constants.color.primary
-                                    }}>
-                                        <Image source={Images.ic_home_primary} style={{ width: 25, height: 25, resizeMode: "contain" }}></Image>
-                                    </View>
-                                    <View style={{
-                                        width: '80%',
-                                    }}>
-                                        <TextInput style={{ width: '100%', }}
-                                            placeholder={"Enter Password"}
-                                            selectionColor={Constants.color.primary}
-                                            secureTextEntry={true}
-                                            onChangeText={(text) => this.fieldChanged(text, 2)}
-                                        />
-                                    </View>
-                                </View>
-                                {/*End Password Field*/}
-
-                                {/*button Field*/}
-
-                               
-                                        <TouchableOpacity
-                                            onPress={() => {
-                                                this.verifyAndLogin();
-                                            }}
-                                            style={styles.touchLogin}>
-                                            <TextBold title={strings.login} textStyle={styles.textButtonLogin} />
-                                        </TouchableOpacity>
-                           
-                                
-                                {/*End Button Field*/}
-
-                            </View>
+                        <View style={{ width: '100%', paddingTop: 50 }}>
+                            <Image
+                                style={{ width: '100%', height: Constants.Screen.width / 3, resizeMode: 'contain' }} source={Images.shallymaid_logo} />
 
                         </View>
+                        <View style={{ width: '100%', paddingTop: 50, paddingHorizontal: 35, paddingBottom: 5 }}>
+                            {/*Phone Field*/}
+                            <View style={styles.inputView}>
+                                <Image style={styles.inputIcon} source={Images.ic_phone_white} />
+                                <TextInput
+                                    style={styles.input}
+                                    placeholderTextColor="white"
+                                    underlineColorAndroid={Constants.color.white}
+                                    placeholder={"Your Mobile Number"}
+                                    value={this.state.phone}
+                                    maxLength={10}
+                                    keyboardType={"phone-pad"}
+                                    onChangeText={(text) => this.fieldChanged(text, 1)}
+                                />
+                            </View>
+                            {/*End Phone Field*/}
+                            {/*Password Field*/}
+                            <View style={styles.inputView}>
+                                <Image style={styles.inputIcon} source={Images.ic_lock_white} />
+                                <TextInput
+                                    style={styles.input}
+                                    placeholderTextColor="white"
+                                    underlineColorAndroid={Constants.color.white}
+                                    value={this.state.password}
+                                    placeholder={"Password"}
+                                    secureTextEntry={true}
+                                    onChangeText={(text) => this.fieldChanged(text, 2)}
+                                />
+                            </View>
+                            {/*End Password Field*/}
+                        </View>
+                        {/*button Field*/}
+                        <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+
+
+                            <TouchableOpacity
+                                onPress={() => {
+                                    this.verifyAndLogin();
+                                }}
+                                style={styles.touchLogin}>
+                                <TextBold title={strings.login} textStyle={styles.textButtonLogin} />
+                            </TouchableOpacity>
+
+
+                            <TouchableOpacity
+                                onPress={() => { NavigationService.navigate("SignUp") }}
+                            >
+                                <TextItalic title={
+                                    "Don't have an account? Sign Up"
+                                }
+                                    textStyle={{
+                                        color: Constants.color.white,
+                                        marginTop: 10,
+                                        fontSize: 12,
+                                    }} />
+                            </TouchableOpacity>
+                        </View>
+
+
+
+                        {/*End Button Field*/}
+
                     </View>
-                </ScrollView>
-                {this.renderProgressBar()}
+
+                    {this.renderProgressBar()}
+                </ImageBackground>
             </View>
 
         );
@@ -273,11 +254,15 @@ function mapStateToProps(state) {
     }
 }
 
-export default connect(mapStateToProps, { isLoginAction,userDataAction})(Login)
+export default connect(mapStateToProps, { isLoginAction, userDataAction })(Login)
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+    },
+    imgBackground: {
+        width: '100%',
+        height: Constants.Screen.height
     },
 
     logoView: {
@@ -290,13 +275,36 @@ const styles = StyleSheet.create({
         backgroundColor: Constants.color.primary,
         justifyContent: "center",
         alignItems: "center",
-        padding:15,
-        margin:35,
-        marginTop:0,
-        borderRadius: 5
+        width: 120,
+        height: 40,
+        marginTop: 0,
+        borderRadius: 50
     },
     textButtonLogin: {
         color: Constants.color.white,
         fontSize: 16,
+    },
+    inputView: {
+        width: '100%',
+        padding: 5,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    inputIcon: {
+        height: 18,
+        width: 18,
+        marginTop:5,
+        marginRight:5,
+        alignItems: 'center',
+        paddingRight: 5
+    },
+    input: {
+        flex: 1,
+        paddingLeft: 6,
+        height: 50,
+        paddingBottom: 10,
+        fontFamily: Fonts.Regular,
+        color: Constants.color.white,
     },
 });

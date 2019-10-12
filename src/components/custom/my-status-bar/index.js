@@ -48,19 +48,14 @@ class MyStatusBar extends Component {
                     width: '100%'
                 }
                 }>
-                    <View style={{
-                        flexDirection: 'row',
-                        alignItems: 'center',
-                        width: '10%'
-                    }
-                    }>
+                    
                         {this.props.goback ? this.renderBackButton() : null}
-                    </View>
+                   
                     <View style={{
                         flexDirection: 'row',
                         alignItems: 'center',
-                        justifyContent: 'center',
-                        width: '80%'
+                        width: '80%',
+                        paddingHorizontal:15
                     }
                     }><TextBold title={this.props.title} textStyle={GlobalStyle.titleTextStyle} /></View>
 

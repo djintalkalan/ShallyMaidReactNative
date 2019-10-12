@@ -1,15 +1,18 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Image, ActivityIndicator, AsyncStorage, FlatList, TouchableOpacity, TouchableHighlight, ImageBackground } from 'react-native';
-import { TextBold } from '../../custom/text'
+import { View, Image, ActivityIndicator, AsyncStorage, FlatList, TouchableOpacity, TouchableHighlight, ImageBackground } from 'react-native';
+import { TextBold, TextRegular, TextHeading } from '../../custom/text'
 import { SafeAreaView } from 'react-navigation';
-import { Constants, Images,GlobalStyle } from '../../../utils';
+import { Constants, Images, GlobalStyle } from '../../../utils';
 import MyStatusBar from '../../custom/my-status-bar'
 import Carousel from 'react-native-looped-carousel';
 import { connect } from 'react-redux'
 import { isLoginAction, userDataAction } from '../../../redux/actions/userData'
 import styles from './style';
+import Ripple from 'react-native-material-ripple';
+import CardView from 'react-native-cardview'
 import NavigationService from '../../../services/NavigationServices';
 import { serviceListApi } from '../../../services/APIService'
+import { ScrollView } from 'react-native-gesture-handler';
 
 class Home extends Component {
 	static navigationOptions = {
@@ -86,45 +89,66 @@ class Home extends Component {
 						width: Constants.Screen.width - 20,
 						height: 160,
 						borderRadius: 5,
-						resizeMode: 'stretch',
+						resizeMode: 'cover',
 
 					}} />
 			</TouchableOpacity>
 		);
 	}
 
-	renderFlatListItem({ item, index }) {
+	renderFlatListItem() {
 		return (
-			<TouchableOpacity
-				style={styles.flatListTouch}
-				onPress={() => { this.cardPressed(item, index) }}>
-				<View style={{ width: '50%', justifyContent: 'center', paddingLeft: 15 }}>
-					<View style={{ alignItems: 'flex-start', }}>
-						<TextBold
-							title={item.name}
-							textStyle={{ color: "#555555", fontSize: 14 }} />
-						<TextBold
-							title={item.description}
-							textStyle={{ color: "#8B0000", fontSize: 11 }} />
-					</View>
-				</View>
-				<View style={{ width: '10%', justifyContent: 'center', alignItems: 'center' }}>
-					<Image style={{ width: 18, height: 18, resizeMode: 'contain' }}
-						source={Images.ic_arrow_pointing_right_in_circle} />
-				</View>
-				<View style={{
-					width: '40%',
-					alignItems: 'flex-end',
-				}}>
-					<Image style={{
-						width: "100%",
-						height: Constants.Screen.width * 2 / 5 - 50,
-					}}
-						resizeMode={"stretch"}
-						source={Images.maid} />
-				</View>
-			</TouchableOpacity>
+			this.state.serviceList.map((item, index) => (
+
+				<ImageBackground
+					imageStyle={{ borderRadius: 10 }}
+					source={{ uri: Constants.URL.baseURL + Constants.URL.assets + Constants.URL.img + item.img }}
+					resizeMode={"cover"}
+					style={{ marginHorizontal: 15, marginVertical: 10 }}>
+					<Ripple
+						style={styles.flatListTouch}
+						onPress={() => { this.cardPressed(item, index) }}
+						rippleColor={Constants.color.black}>
+
+						<View style={{ width: '100%', height: 110, justifyContent: 'flex-end', padding: 15 }}>
+							<View style={{ alignItems: 'flex-start' }}>
+								<TextHeading
+									title={item.name}
+									textStyle={{ fontSize: 12, color: Constants.color.white }} />
+								<TextRegular
+									title={item.description}
+									textStyle={{ fontSize: 9, color: Constants.color.white }} />
+							</View>
+						</View>
+
+					</Ripple>
+				</ImageBackground>))
 		)
+	}
+
+
+	renderGridViewItems() {
+		let serviceList = this.state.serviceList;
+
+		// let matrix = [], i, k;
+
+		// for (i = 0, k = -1; i < serviceList.length; i++) {
+		// 	if (i % 3 === 0) {
+		// 		k++;
+		// 		matrix[k] = [];
+		// 	}
+		// 	matrix[k].push(serviceList[i]);
+		// }
+
+		// return matrix.map((row, index) => (
+		// 	<View style={{width:"100%"}}>
+
+		// 	</View>
+		// ));
+
+
+
+
 	}
 
 	callServiceListApi() {
@@ -168,50 +192,88 @@ class Home extends Component {
 	}
 
 	renderProgressBar() {
-        if (this.state.isLoading) {
-            return (
-                <View style={GlobalStyle.activityIndicatorView}>
-                    <View style={GlobalStyle.activityIndicatorWrapper}>
-                        <ActivityIndicator
-                            size={"large"}
-                            color={Constants.color.primary}
-                            animating={true} />
-                    </View>
-                </View>
+		if (this.state.isLoading) {
+			return (
+				<View style={GlobalStyle.activityIndicatorView}>
+					<View style={GlobalStyle.activityIndicatorWrapper}>
+						<ActivityIndicator
+							size={"large"}
+							color={Constants.color.primary}
+							animating={true} />
+					</View>
+				</View>
 
-            )
-        } else {
-            return
-        }
+			)
+		} else {
+			return
+		}
 
-    }
+	}
 
 	render() {
 		return (
 			<View style={styles.container}>
 				<SafeAreaView style={{ backgroundColor: Constants.color.primary }} />
-				<MyStatusBar title="Home" />
-				<View style={{ flex: 1 }}>
-					<View style={{ marginTop: 10, marginBottom: 10 }}>
-						{this.state.data.length > 0 ?
-							<Carousel
-								delay={5000}
-								style={{ width: Constants.Screen.width, height: 160 }}
-								autoplay
-							>
-								{this.state.data.map((item, index) => this._renderItem(item, index))}
-							</Carousel> : null}
+				<ScrollView>
+					<View>
+						<MyStatusBar title="Home" />
+						<View style={{ flex: 1 }}>
+
+							<TextHeading title="Current Offers" textStyle={{ fontSize: 12, padding: 15 }} />
+
+							<View style={{}}>
+								{this.state.data.length > 0 ?
+									<Carousel
+										delay={5000}
+										style={{ width: Constants.Screen.width, height: 160 }}
+										autoplay
+									>
+										{this.state.data.map((item, index) => this._renderItem(item, index))}
+									</Carousel> : null}
+							</View>
+							<TextHeading title="Services" textStyle={{ fontSize: 12, padding: 15, paddingBottom: 5 }} />
+							<View >
+								{this.renderFlatListItem()}
+							</View>
+							<View >
+								<CardView
+									style={{
+										margin: 15,
+										backgroundColor: '#bfbfbf',
+										borderColor: "white",
+									}}
+									cornerRadius={7}
+									borderColor={"white"}
+									cardElevation={2}>
+									<FlatList
+										data={this.state.serviceList}
+										renderItem={({ item }) => (
+											<View style={{
+												flex: 1,
+												height: 120,
+												backgroundColor: "white",
+												margin: 0.3
+											}}>
+												<Ripple style={{width:'100%',height:'100%',
+												flexDirection: 'column',
+												alignItems: 'center',
+												justifyContent: 'center',}}>
+												<Image style={styles.imageThumbnail}
+													source={{ uri: Constants.URL.baseURL + Constants.URL.assets + Constants.URL.icons + item.icon }} />
+												<TextBold  title={item.name} textStyle={{ fontSize: 10, textAlign: 'center', padding: 5 }} />
+												</Ripple>
+											</View>
+										)}
+										//Setting the number of column
+										numColumns={3}
+										keyExtractor={(item, index) => index.toString()}
+									/>
+								</CardView>
+							</View>
+
+						</View>
 					</View>
-					{<FlatList
-						data={this.state.serviceList}
-						keyExtractor={item => item.id}
-						// ListHeaderComponent={this.renderHeader}
-						renderItem={({ item, index }) => (
-							this.renderFlatListItem({ item, index })
-						)} />}
-
-
-				</View>
+				</ScrollView>
 				{this.renderProgressBar()}
 			</View>
 		);

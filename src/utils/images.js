@@ -4,12 +4,22 @@ export const Images={
       ic_back_android:require('../assets/img/ic_back_android.png'),
       ic_back_ios:require('../assets/img/ic_back_ios.png'),
       maid:require('../assets/img/maid.jpg'),
+      img_background:require('../assets/img/img_background.png'),
+      shallymaid_logo:require('../assets/img/shallymaid_logo.png'),
+      ic_contact_us:require('../assets/img/ic_contact_us.png'),
       ic_arrow_pointing_right_in_circle:require('../assets/img/ic_arrow_pointing_right_in_circle.png'),
-      ic_my_profile_grey:require('../assets/img/ic_my_profile_grey.png'),
+      ic_my_booking:require('../assets/img/ic_my_booking.png'),
+      ic_my_profile:require('../assets/img/ic_my_profile.png'),
+      ic_my_booking_primary:require('../assets/img/ic_my_booking_primary.png'),
+      ic_contact_us_primary:require('../assets/img/ic_contact_us_primary.png'),
       ic_my_profile_primary:require('../assets/img/ic_my_profile_primary.png'),
-
-    
-      //ic_my_profile_primary:require('../assets/img/ic_my_profile_primary.png'),
+      ic_my_profile_white:require('../assets/img/ic_my_profile_white.png'),
+      ic_phone_white:require('../assets/img/ic_phone_white.png'),
+      ic_happy:require('../assets/img/happy.jpg'),
+      ic_lock_white:require('../assets/img/ic_lock_white.png'),
+      ic_sad:require('../assets/img/sad.png'),
+      ic_question:require('../assets/img/question.jpg'),
+      //ic_question:require('../assets/img/question.jpg'),
     
 }
 

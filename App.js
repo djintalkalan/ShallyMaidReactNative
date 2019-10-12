@@ -1,9 +1,10 @@
 
 
 import React, { Component } from 'react';
-import { Image, View,ActivityIndicator } from 'react-native';
+import { Image, View, ActivityIndicator } from 'react-native';
 import SplashScreen from 'react-native-splash-screen';
 import AsyncStorage from '@react-native-community/async-storage';
+import CardView from 'react-native-cardview'
 import { Provider } from 'react-redux';
 import { configureStore } from "./src/redux/store"
 import { createStackNavigator, createAppContainer, createSwitchNavigator, createBottomTabNavigator } from 'react-navigation';
@@ -15,7 +16,7 @@ import { Images, GlobalStyle, strings, Constants } from './src/utils';
 
 //Auth and Login Screens
 import Login from './src/components/loginStack/login';
-import Second from './src/components/loginStack/second';
+import SignUp from './src/components/loginStack/signup';
 
 
 //Home tab screens
@@ -30,6 +31,8 @@ import SecondDeals from './src/components/dealsStack/second';
 //Profile tab screens
 import MyProfile from './src/components/myProfileStack/myProfile';
 import ChangePassword from './src/components/myProfileStack/change-password';
+import MyOrders from './src/components/myProfileStack/my-orders';
+import { TextRegular, TextLite } from './src/components/custom/text';
 
 
 //Login Stack
@@ -37,6 +40,13 @@ const LoginStack = createStackNavigator({
 	Login: {
 		screen: Login
 	},
+	SignUp: {
+		screen: SignUp
+	}
+}, {
+	// initialRoutßeName: 'RestaurantMenu',
+	initialRouteName: 'Login',
+	// initialRouteName: 'RestaurantMenu',
 });
 
 //Home Stack
@@ -47,17 +57,24 @@ const HomeStack = createStackNavigator({
 	SecondHome: {
 		screen: SecondHome
 	},
-	SelectionScreen:{
-		screen:SelectionScreen
+	SelectionScreen: {
+		screen: SelectionScreen
 	}
 }, {
-    // initialRoutßeName: 'RestaurantMenu',
-    initialRouteName: 'Home',
-    // initialRouteName: 'RestaurantMenu',
-  });
+	// initialRoutßeName: 'RestaurantMenu',
+	initialRouteName: 'Home',
+	// initialRouteName: 'RestaurantMenu',
+});
 
-//Deals Stack
-const DealsStack = createStackNavigator({
+//Contact us Stack
+const MyBookingStack = createStackNavigator({
+	MyOrders: {
+		screen: MyOrders
+	}
+});
+
+//Contact us Stack
+const ContactUsStack = createStackNavigator({
 	Deals: {
 		screen: Deals
 	},
@@ -74,29 +91,54 @@ const MyProfileStack = createStackNavigator({
 	ChangePassword: {
 		screen: ChangePassword
 	},
+	MyOrders: {
+		screen: MyOrders
+	}
 });
 
 MyProfileStack.navigationOptions = ({ navigation }) => {
 	let tabBarVisible = true;
 	if (navigation.state.index > 0) {
-	  tabBarVisible = false;
+		tabBarVisible = false;
 	}
-  
-	return {
-	  tabBarVisible,
-	};
-  };
 
-  HomeStack.navigationOptions = ({ navigation }) => {
+	return {
+		tabBarVisible,
+	};
+};
+
+ContactUsStack.navigationOptions = ({ navigation }) => {
 	let tabBarVisible = true;
 	if (navigation.state.index > 0) {
-	  tabBarVisible = false;
+		tabBarVisible = false;
 	}
-  
+
 	return {
-	  tabBarVisible,
+		tabBarVisible,
 	};
-  };
+};
+
+MyBookingStack.navigationOptions = ({ navigation }) => {
+	let tabBarVisible = true;
+	if (navigation.state.index > 0) {
+		tabBarVisible = false;
+	}
+
+	return {
+		tabBarVisible,
+	};
+};
+
+HomeStack.navigationOptions = ({ navigation }) => {
+	let tabBarVisible = true;
+	if (navigation.state.index > 0) {
+		tabBarVisible = false;
+	}
+
+	return {
+		tabBarVisible,
+	};
+};
 
 const TabNavigator = createBottomTabNavigator({
 	Home: {
@@ -105,66 +147,97 @@ const TabNavigator = createBottomTabNavigator({
 			tabBarIcon: ({ tintColor }) => (
 				<View style={{ height: '100%', width: '100%' }}>
 					{tintColor == '#808080' ?
-						<View style={{ borderTopColor: 'white', borderWidth: 2, height: '100%', width: '100%', borderColor: 'white', justifyContent: 'center', alignItems: 'center' }}>
+						<View style={{ borderTopColor: "white", borderWidth: 1.5, borderColor: 'white', height: '100%', width: '100%', justifyContent: 'center', alignItems: 'center' }}>
 							<Image source={Images.ic_home_grey} style={{ width: 20, height: 20, resizeMode: "contain" }}></Image>
+							<TextLite title={"Home"} textStyle={{ fontSize: 8, letterSpacing: 0 }} />
 						</View> :
-						<View style={{ borderTopColor: tintColor, borderWidth: 2, height: '100%', width: '100%', borderColor: 'white', justifyContent: 'center', alignItems: 'center' }}>
-							<Image source={Images.ic_home_primary} style={{ width: 25, height: 25, resizeMode: "contain" }}></Image>
+						<View style={{ borderTopColor: Constants.color.primary, borderWidth: 1.5, borderColor: 'white', height: '100%', width: '100%', justifyContent: 'center', alignItems: 'center' }}>
+							<Image source={Images.ic_home_primary} style={{ width: 20, height: 20, resizeMode: "contain" }}></Image>
+							<TextLite title={"Home"} textStyle={{ fontSize: 8, letterSpacing: 0, color: Constants.color.primary }} />
 						</View>
 					}
 				</View>
 			),
-			tabBarLabel: 'Home',
+			tabBarLabel: <View />,
+			keyboardHidesTabBar:true
 		})
-	},/* 
-	Deals: {
-		screen: DealsStack,
+	},
+	MyBooking: {
+		screen: MyBookingStack,
 		navigationOptions: () => ({
 			tabBarIcon: ({ tintColor }) => (
 				<View style={{ height: '100%', width: '100%' }}>
 					{tintColor == '#808080' ?
-						<View style={{ borderTopColor: 'white', borderWidth: 2, height: '100%', width: '100%', borderColor: 'white', justifyContent: 'center', alignItems: 'center' }}>
-							<Image source={Images.ic_home_grey} style={{ width: 20, height: 20, resizeMode: "contain" }}></Image>
+						<View style={{ borderTopColor: "white", borderWidth: 1.5, borderColor: 'white', height: '100%', width: '100%', justifyContent: 'center', alignItems: 'center' }}>
+							<Image source={Images.ic_my_booking} style={{ width: 20, height: 20, resizeMode: "contain" }}></Image>
+							<TextLite title={"My Booking"} textStyle={{ fontSize: 8, letterSpacing: 0 }} />
 						</View> :
-						<View style={{ borderTopColor: tintColor, borderWidth: 2, height: '100%', width: '100%', borderColor: 'white', justifyContent: 'center', alignItems: 'center' }}>
-							<Image source={Images.ic_home_primary} style={{ width: 25, height: 25, resizeMode: "contain" }}></Image>
+						<View style={{ borderTopColor: Constants.color.primary, borderWidth: 1.5, borderColor: 'white', height: '100%', width: '100%', justifyContent: 'center', alignItems: 'center' }}>
+							<Image source={Images.ic_my_booking_primary} style={{ width: 20, height: 20, resizeMode: "contain" }}></Image>
+							<TextLite title={"My Booking"} textStyle={{ fontSize: 8, letterSpacing: 0, color: Constants.color.primary }} />
 						</View>
 					}
 				</View>
 			),
-			tabBarLabel: 'Deals',
+			tabBarLabel: <View />,
+			keyboardHidesTabBar:true
 		})
-	}, */
+	},
+	
+	ContactUs: {
+		screen: ContactUsStack,
+		navigationOptions: () => ({
+			tabBarIcon: ({ tintColor }) => (
+				<View style={{ height: '100%', width: '100%' }}>
+					{tintColor == '#808080' ?
+						<View style={{ borderTopColor: "white", borderWidth: 1.5, borderColor: 'white', height: '100%', width: '100%', justifyContent: 'center', alignItems: 'center' }}>
+							<Image source={Images.ic_contact_us} style={{ width: 20, height: 20, resizeMode: "contain" }}></Image>
+							<TextLite title={"Contact Us"} textStyle={{ fontSize: 8, letterSpacing: 0 }} />
+						</View> :
+						<View style={{ borderTopColor: Constants.color.primary, borderWidth: 1.5, borderColor: 'white', height: '100%', width: '100%', justifyContent: 'center', alignItems: 'center' }}>
+							<Image source={Images.ic_contact_us_primary} style={{ width: 20, height: 20, resizeMode: "contain" }}></Image>
+							<TextLite title={"Contact Us"} textStyle={{ fontSize: 8, letterSpacing: 0, color: Constants.color.primary }} />
+						</View>
+					}
+				</View>
+			),
+			tabBarLabel: <View />,
+			keyboardHidesTabBar:true
+		})
+	},
 	MyProfile: {
 		screen: MyProfileStack,
 		navigationOptions: () => ({
 			tabBarIcon: ({ tintColor }) => (
 				<View style={{ height: '100%', width: '100%' }}>
 					{tintColor == '#808080' ?
-						<View style={{ borderTopColor: 'white', borderWidth: 2, height: '100%', width: '100%', borderColor: 'white', justifyContent: 'center', alignItems: 'center' }}>
-							<Image source={Images.ic_my_profile_grey} style={{ width: 20, height: 20, resizeMode: "contain" }}></Image>
+						<View style={{ borderTopColor: "white", borderWidth: 1.5, borderColor: 'white', height: '100%', width: '100%', justifyContent: 'center', alignItems: 'center' }}>
+							<Image source={Images.ic_my_profile} style={{ width: 20, height: 20, resizeMode: "contain" }}></Image>
+							<TextLite title={"My Profile"} textStyle={{ fontSize: 8, letterSpacing: 0 }} />
 						</View> :
-						<View style={{ borderTopColor: tintColor, borderWidth: 2, height: '100%', width: '100%', borderColor: 'white', justifyContent: 'center', alignItems: 'center' }}>
-							<Image source={Images.ic_my_profile_primary} style={{ width: 25, height: 25, resizeMode: "contain" }}></Image>
+						<View style={{ borderTopColor: Constants.color.primary, borderWidth: 1.5, borderColor: 'white', height: '100%', width: '100%', justifyContent: 'center', alignItems: 'center' }}>
+							<Image source={Images.ic_my_profile_primary} style={{ width: 20, height: 20, resizeMode: "contain" }}></Image>
+							<TextLite title={"My Profile"} textStyle={{ fontSize: 8, letterSpacing: 0, color: Constants.color.primary }} />
 						</View>
 					}
 				</View>
 			),
-			tabBarLabel: 'My Profile',
+			tabBarLabel: <View />,
+			keyboardHidesTabBar:true
 		})
 	}
 }, {
-		// initialRouteName: "ScheduleOrders",
-		tabBarOptions: {
-			activeTintColor: Constants.color.primary,
-			inactiveTintColor: '#808080',
-		
-		keyboardHidesTabBar:true,
-			// showLabel: false
-		},
-		lazy: true,
-	});
-	
+	// initialRouteName: "ScheduleOrders",
+	tabBarOptions: {
+		activeTintColor: Constants.color.primary,
+		inactiveTintColor: '#808080',
+
+		keyboardHidesTabBar: true,
+		// showLabel: false
+	},
+	lazy: true,
+});
+
 
 export default class App extends Component {
 	state = {
@@ -174,7 +247,7 @@ export default class App extends Component {
 
 	componentDidMount = async () => {
 		SplashScreen.hide();
-	
+
 		console.log('App')
 		try {
 			let isLogin = await AsyncStorage.getItem(Constants.STORAGE_KEY.isLogin);
@@ -191,20 +264,20 @@ export default class App extends Component {
 			this.setState({ isLoginI: isLoginI }, () => {
 				SplashScreen.hide();
 			})
-			
+
 
 			// NavigationService.navigate('MainStack');
 			// NavigationService.navigate(token ? 'MainStack' : 'LoginStack');
 		} catch (e) {
 			// error reading value
 			alert(e)
-			
+
 			isLoginI = 3
 			this.setState({ isLoginI: isLoginI }, () => {
 				SplashScreen.hide();
 			})
 		}
-		
+
 	}
 	getRoute() {
 		switch (this.state.isLoginI) {
@@ -217,18 +290,18 @@ export default class App extends Component {
 		}
 	}
 	renderProgressBar() {
-      
-            return (
-                <View style={GlobalStyle.activityIndicatorView}>
-                    <View style={GlobalStyle.activityIndicatorWrapper}>
-                        <ActivityIndicator
-                            size={"large"}
-                            color={Constants.color.primary}
-                            animating={true} />
-                    </View>
-                </View>
-            )
-			}
+
+		return (
+			<View style={GlobalStyle.activityIndicatorView}>
+				<View style={GlobalStyle.activityIndicatorWrapper}>
+					<ActivityIndicator
+						size={"large"}
+						color={Constants.color.primary}
+						animating={true} />
+				</View>
+			</View>
+		)
+	}
 
 	render() {
 
@@ -238,28 +311,28 @@ export default class App extends Component {
 				LoginStack: LoginStack,
 				MainStack: TabNavigator,
 			}, {
-					// initialRouteName: "LoginStack",
-					initialRouteName: this.getRoute()
-				}
+				// initialRouteName: "LoginStack",
+				initialRouteName: this.getRoute()
+			}
 			)
 		);
 		console.disableYellowBox = true;
-		if(this.state.isLoginI==0){
+		if (this.state.isLoginI == 0) {
 			return (
-				<View style={{flex:1}}
+				<View style={{ flex: 1 }}
 				>
 					{this.renderProgressBar()}
 				</View>
 			)
-		}else
-		return (
-			<Provider store={store}>
-				<Navigations
-					ref={navigatorRef => {
-						NavigationService.setTopLevelNavigator(navigatorRef);
-					}}
-				/>
-			</Provider >
-		)
+		} else
+			return (
+				<Provider store={store}>
+					<Navigations
+						ref={navigatorRef => {
+							NavigationService.setTopLevelNavigator(navigatorRef);
+						}}
+					/>
+				</Provider >
+			)
 	}
 }

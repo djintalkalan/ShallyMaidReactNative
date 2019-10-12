@@ -10,7 +10,7 @@ import RadioButton from 'react-native-radio-button'
 import styles from './style'
 import DateTimePicker from "react-native-modal-datetime-picker";
 import moment from "moment";
-import { StackActions, NavigationActions } from 'react-navigation';
+import { ViewPager, PagerTabIndicator, IndicatorViewPager, PagerTitleIndicator, PagerDotIndicator } from 'rn-viewpager';
 
 
 
@@ -245,72 +245,94 @@ class SelectionScreen extends Component {
 									textStyle={{ color: '#808080', padding: 2 }} />
 							</View>
 
-							<TextBold title={"Select Availibility:"} textStyle={{ padding: 2, marginTop: 10, }} />
 
-							<View style={{
-								flexDirection: 'row',
-								alignItems: 'center', width: '100%'
-							}} >
-								<View style={styles.rowCheckbox}>
-									<RadioButton
-										outerColor={Constants.color.primary}
-										size={10}
-										innerColor={Constants.color.primary}
-										onPress={() => this.setState({
-											isDailySelected: true,
-											availibility: "daily",
-											isOccassionallySelected: false,
-										})}
-										isSelected={this.state.isDailySelected}
-									/>
-									<TextBold title={"Daily"} textStyle={{ padding: 5 }} />
-								</View>
+							<ViewPager
+								style={{ height: 500 }}
+								ref={element => this.viewPager = element}
+							>
+								<View style={{ backgroundColor: 'cadetblue' }}>
+									<TextBold title={"Select Availibility:"} textStyle={{ padding: 2, marginTop: 10, }} />
 
-
-								<View style={[styles.rowCheckbox, { width: '60%' }]}>
-									<RadioButton
-										outerColor={Constants.color.primary}
-										size={10}
-										innerColor={Constants.color.primary}
-										onPress={() => this.setState({
-											isOccassionallySelected: true,
-											availibility: "occassionally",
-											isDailySelected: false,
-										})}
-										isSelected={this.state.isOccassionallySelected}
-									/>
-									<TextBold title={"Occassionally"} textStyle={{ padding: 5 }} />
-								</View>
-							</View>
-
-							{
-								this.state.isOccassionallySelected ?
-									<View>
-										{/*Booking date*/}
-										<View
-											style={styles.viewInput}>
-											<TextBold title={"Select Booking Date:"} textStyle={{}} />
-											<TouchableOpacity style={styles.inputLayout}
-												onPress={() => { this.showDatePicker() }}>
-												<TextInput
-													pointerEvents="none"
-													editable={false}
-													value={this.state.bookingDate}
-													style={styles.textInput}
-													placeholder={strings.hint_booking_date} />
-
-											</TouchableOpacity>
-											<DateTimePicker
-												isVisible={this.state.isDatePickerVisible}
-												mode="date"
-												minimumDate={new Date()}
-												maximumDate={new Date(moment(new Date()).add(7, 'day').format('YYYY-MM-DD'))}
-												onConfirm={this.handleDatePicked}
-												onCancel={this.hideDatePicker}
+									<View style={{
+										flexDirection: 'row',
+										alignItems: 'center', width: '100%'
+									}} >
+										<View style={styles.rowCheckbox}>
+											<RadioButton
+												outerColor={Constants.color.primary}
+												size={10}
+												innerColor={Constants.color.primary}
+												onPress={() => this.setState({
+													isDailySelected: true,
+													availibility: "daily",
+													isOccassionallySelected: false,
+												})}
+												isSelected={this.state.isDailySelected}
 											/>
-
+											<TextBold title={"Daily"} textStyle={{ padding: 5 }} />
 										</View>
-									</View> : null}
+
+
+										<View style={[styles.rowCheckbox, { width: '60%' }]}>
+											<RadioButton
+												outerColor={Constants.color.primary}
+												size={10}
+												innerColor={Constants.color.primary}
+												onPress={() => this.setState({
+													isOccassionallySelected: true,
+													availibility: "occassionally",
+													isDailySelected: false,
+												})}
+												isSelected={this.state.isOccassionallySelected}
+											/>
+											<TextBold title={"Occassionally"} textStyle={{ padding: 5 }} />
+										</View>
+									</View>
+
+									{
+										this.state.isOccassionallySelected ?
+											<View>
+												{/*Booking date*/}
+												<View
+													style={styles.viewInput}>
+													<TextBold title={"Select Booking Date:"} textStyle={{}} />
+													<TouchableOpacity style={styles.inputLayout}
+														onPress={() => { this.showDatePicker() }}>
+														<TextInput
+															pointerEvents="none"
+															editable={false}
+															value={this.state.bookingDate}
+															style={styles.textInput}
+															placeholder={strings.hint_booking_date} />
+
+													</TouchableOpacity>
+													<DateTimePicker
+														isVisible={this.state.isDatePickerVisible}
+														mode="date"
+														minimumDate={new Date()}
+														maximumDate={new Date(moment(new Date()).add(7, 'day').format('YYYY-MM-DD'))}
+														onConfirm={this.handleDatePicked}
+														onCancel={this.hideDatePicker}
+													/>
+
+												</View>
+											</View> : null}
+									<TouchableOpacity
+										onPress={() => {
+											this.viewPager.setPage(1)
+										}}
+										style={styles.touchLogin}>
+										<TextBold title={strings.place_request} textStyle={styles.textButtonLogin} />
+									</TouchableOpacity>
+								</View>
+								<View style={{ backgroundColor: 'cornflowerblue' }}>
+
+								</View>
+								<View style={{ backgroundColor: '#1AA094' }}>
+
+								</View>
+							</ViewPager>
+
 							{this.state.selectedItems.selectedService.name.toLowerCase().includes("cook") &&
 								this.state.selectedItems.selectedCategory.name.toLowerCase().includes("home") ?
 								<View style={{ flexDirection: 'row', alignItems: 'center' }}>
