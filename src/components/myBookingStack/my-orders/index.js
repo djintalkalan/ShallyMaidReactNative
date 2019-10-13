@@ -8,6 +8,7 @@ import { TextHeading, TextLite, TextRegular, } from '../../custom/text'
 import Ripple from 'react-native-material-ripple';
 import NavigationService from '../../../services/NavigationServices';
 import { getMyOrderApi } from '../../../services/APIService'
+import { selectedTabAction } from '../../../redux/actions/selectedTab'
 
 class MyOrders extends Component {
 	static navigationOptions = {
@@ -35,6 +36,21 @@ class MyOrders extends Component {
 	onBackClick = () => {
 		const { navigation } = this.props;
 		navigation.goBack();
+	}
+	componentDidUpdate(prevProps, prevState, snapshot) {
+		if (this.props.selectedTab && this.props.selectedTab === true) {
+			this.props.selectedTabAction(false)
+			this.setState({
+				currentPage: -10,
+				totalPages: -10,
+				isLoading: false,
+				orderList: null,
+			}, () => {
+				this.callInitMyOrdersApi();
+			})
+		}
+
+
 	}
 
 	renderProgressBar() {
@@ -162,11 +178,11 @@ class MyOrders extends Component {
 	calculateStatus(id) {
 		switch (parseInt(id)) {
 			case Constants.ORDER_STATUS.processing_1:
-				return strings.processing
+				return <TextHeading title={strings.processing} textStyle={styles.textAmountProcessing} />
 			case Constants.ORDER_STATUS.preparing_2:
-				return "Seen"
+				return <TextHeading title={"Seen"} textStyle={styles.textAmountProcessing} />
 			case Constants.ORDER_STATUS.preparing_3:
-				return "Proccessed"
+				return <TextHeading title={"Proccessed"} textStyle={styles.textAmountProcessing} />
 		}
 	}
 	renderFlatListItem({ item, index }) {
@@ -175,7 +191,7 @@ class MyOrders extends Component {
 
 			<Ripple
 				style={styles.mainCard}
-				//onPress={() => { this.cardPressed(item, index) }}
+				onPress={() => { NavigationService.navigate('OrderDetail', { navigateFrom: 'MyOrders', orderObject: item }) }}
 				rippleColor={Constants.color.black}>
 				<View style={{ flexDirection: 'row', margin: 10, alignItems: 'center' }}>
 					<TextRegular textStyle={{ fontSize: 10 }} title={"Placed - " + item.addedon} />
@@ -186,11 +202,7 @@ class MyOrders extends Component {
 					{/* View For Image */}
 					<View style={styles.viewImg}>
 						<Image style={styles.imageThumbnail}
-							source={{ uri: Constants.URL.baseURL + Constants.URL.assets + Constants.URL.icons + item.icon }} />
-						<Image source={item.selectedService.img
-							? { uri: Constants.URL.baseURL + Constants.URL.assets + Constants.URL.img + item.selectedService.img } : Images.maid}
-							resizeMode='stretch'
-							style={styles.imgLogo} ></Image>
+							source={{ uri: Constants.URL.baseURL + Constants.URL.assets + Constants.URL.icons + item.selectedService.icon }} />
 					</View>
 					{/* View For Items */}
 					<View style={styles.viewItems}>
@@ -199,32 +211,33 @@ class MyOrders extends Component {
 								<TextHeading title={"Service: "} textStyle={styles.textItemName} />
 							</View>
 
-							<TextHeading title={item.selectedService.name} textStyle={styles.textItemValue} />
+							<TextHeading numberOfLines={1} ellipsizeMode={'tail'} title={item.selectedService.name} textStyle={styles.textItemValue} />
 						</View>
 						<View style={styles.viewInputRow}>
-							<TextHeading title={"Category: "} textStyle={styles.textItemName} />
-							<TextHeading title={item.selectedCategory.name + (item.selectedSubcategory == null ? "" : "-" + item.selectedSubcategory.name)}
+							<View style={{ width: '40%' }}>
+								<TextHeading title={"Category: "} textStyle={styles.textItemName} />
+							</View>
+							<TextHeading numberOfLines={1} ellipsizeMode={'tail'} title={item.selectedCategory.name + (item.selectedSubcategory == null ? "" : "-" + item.selectedSubcategory.name)}
 								textStyle={styles.textItemValue} />
 						</View>
 						<View style={styles.viewInputRow}>
-							<TextHeading title={"Order number: "} textStyle={styles.textItemName} />
-							<TextHeading title={item.order_number}
+							<View style={{ width: '40%' }}>
+								<TextHeading title={"Order number: "} textStyle={styles.textItemName} />
+							</View>
+							<TextHeading numberOfLines={1} ellipsizeMode={'tail'} title={item.order_number}
 								textStyle={styles.textItemValue} />
 						</View>
+
 						<View style={styles.viewInputRow}>
-							<Text title={"Order number: "} textStyle={styles.textItemName} />
-							<TextHeading title={item.order_number}
-								textStyle={styles.textItemValue} />
+							<View style={{ width: '40%' }}>
+								<TextHeading title={"Status: "} textStyle={styles.textItemName} />
+							</View>
+
+							{this.calculateStatus(item.status)}
 						</View>
 					</View>
 				</View>
-				{/* View For Buttons */}
-				<View style={{ flexDirection: 'row', backgroundColor: 'white', justifyContent: 'flex-end' }}>
-					{/* Button Status */}
-					<View style={styles.buttonStatus}   >
-						<TextHeading title={this.calculateStatus(item.status)} textStyle={styles.textAmountProcessing} />
-					</View>
-				</View>
+
 			</Ripple>
 
 		)
@@ -237,7 +250,7 @@ class MyOrders extends Component {
 		return (
 			<View style={styles.container}>
 				<SafeAreaView style={{ backgroundColor: Constants.color.primary }} />
-				<MyStatusBar title={strings.my_orders} goback={() => this.onBackClick()} />
+				<MyStatusBar title={strings.my_orders} />
 				<View style={{ flex: 1, paddingBottom: 10, paddingHorizontal: 5 }}>
 					{this.state.orderList == null ? null :
 						<FlatList
@@ -261,7 +274,8 @@ function mapStateToProps(state) {
 	return {
 		userData: state.userData,
 		isLogin: state.isLogin,
+		selectedTab: state.selectedTab
 	}
 }
 
-export default connect(mapStateToProps, {})(MyOrders)
+export default connect(mapStateToProps, { selectedTabAction })(MyOrders)

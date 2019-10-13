@@ -5,6 +5,7 @@ import { Fonts, Constants, strings } from '../../../utils'
 export default StyleSheet.create({
     container: {
         flex: 1,
+        backgroundColor: "#f0f0f0"
     },
     flatListTouch: {
         borderRadius: 5, overflow: "hidden",
@@ -43,22 +44,22 @@ export default StyleSheet.create({
         color: Constants.color.black
     },
     textAreaContainer: {
-        borderColor: Constants.color.primary,
+        borderColor: Constants.color.gray,
         borderWidth: 1,
-        borderRadius:5,
-        padding:5
+        borderRadius: 10,
+        margin: 20,
+        padding: 5
     },
     textArea: {
         textAlignVertical: 'top',
     },
-     touchLogin: {
+    touchLogin: {
         backgroundColor: Constants.color.primary,
         justifyContent: "center",
         alignItems: "center",
-        padding:10,
-        margin:35,
-        marginTop:0,
-        borderRadius: 5
+        padding: 10,
+        width: '50%',
+        borderRadius: 10,
     },
     textButtonLogin: {
         color: Constants.color.white,

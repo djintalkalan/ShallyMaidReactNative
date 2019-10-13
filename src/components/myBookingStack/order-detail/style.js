@@ -46,7 +46,7 @@ export default StyleSheet.create({
         height: '100%'
     },
     viewItems: {
-        width: '70%',
+        width: '100%',
         padding: 5,
     },
     viewInputRow: {
@@ -56,14 +56,13 @@ export default StyleSheet.create({
     textItemName: {
         color: Constants.color.black,
         fontSize: 11,
-        fontWeight: '900'
+        width: '45%'
     },
 
     textItemValue: {
         color: "#808080",
         fontSize: 10,
-        fontWeight: '900',
-        width: '60%'
+        width: '55%'
     },
     textItems: {
         width: '100%',
@@ -83,7 +82,7 @@ export default StyleSheet.create({
     textAmountProcessing: {
         color: Constants.color.primary,
         fontSize: 10,
-        fontWeight: '900'
+        width: '55%'
     },
     imageThumbnail: {
         width: 50,

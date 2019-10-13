@@ -3,12 +3,15 @@
 import React, { Component } from 'react';
 import { Image, View, ActivityIndicator } from 'react-native';
 import SplashScreen from 'react-native-splash-screen';
+import transitionConfig from './src/components/custom/trans'
 import AsyncStorage from '@react-native-community/async-storage';
 import CardView from 'react-native-cardview'
 import { Provider } from 'react-redux';
 import { configureStore } from "./src/redux/store"
 import { createStackNavigator, createAppContainer, createSwitchNavigator, createBottomTabNavigator } from 'react-navigation';
 import NavigationService from './src/services/NavigationServices';
+
+import { TextRegular, TextLite } from './src/components/custom/text';
 const store = configureStore();
 
 //Utils
@@ -21,8 +24,10 @@ import SignUp from './src/components/loginStack/signup';
 
 //Home tab screens
 import Home from './src/components/homeStack/home';
-import SecondHome from './src/components/homeStack/second';
+import Category from './src/components/homeStack/category';
+import Subcategory from './src/components/homeStack/subcategory';
 import SelectionScreen from './src/components/homeStack/selection-screen'
+import OrderConfirmation from './src/components/homeStack/order-confirmation'
 
 //Deals tab screens
 import Deals from './src/components/dealsStack/deals';
@@ -31,8 +36,12 @@ import SecondDeals from './src/components/dealsStack/second';
 //Profile tab screens
 import MyProfile from './src/components/myProfileStack/myProfile';
 import ChangePassword from './src/components/myProfileStack/change-password';
+
+
+//My Orders Screens
 import MyOrders from './src/components/myBookingStack/my-orders';
-import { TextRegular, TextLite } from './src/components/custom/text';
+import OrderDetail from './src/components/myBookingStack/order-detail';
+
 
 
 //Login Stack
@@ -54,15 +63,23 @@ const HomeStack = createStackNavigator({
 	Home: {
 		screen: Home
 	},
-	SecondHome: {
-		screen: SecondHome
+	Category: {
+		screen: Category
+	},
+	Subcategory: {
+		screen: Subcategory
 	},
 	SelectionScreen: {
 		screen: SelectionScreen
+	},
+	OrderConfirmation: {
+		screen: OrderConfirmation
 	}
 }, {
 	// initialRoutßeName: 'RestaurantMenu',
 	initialRouteName: 'Home',
+	initialRouteParams: { transition: 'fade' },
+	transitionConfig
 	// initialRouteName: 'RestaurantMenu',
 });
 
@@ -70,7 +87,16 @@ const HomeStack = createStackNavigator({
 const MyBookingStack = createStackNavigator({
 	MyOrders: {
 		screen: MyOrders
+	},
+	OrderDetail: {
+		screen: OrderDetail
 	}
+}, {
+	// initialRoutßeName: 'RestaurantMenu',
+	initialRouteName: 'MyOrders',
+	initialRouteParams: { transition: 'fade' },
+	transitionConfig
+	// initialRouteName: 'RestaurantMenu',
 });
 
 //Contact us Stack
@@ -81,6 +107,12 @@ const ContactUsStack = createStackNavigator({
 	SecondDeals: {
 		screen: SecondDeals
 	},
+}, {
+	// initialRoutßeName: 'RestaurantMenu',
+	initialRouteName: 'Deals',
+	initialRouteParams: { transition: 'fade' },
+	transitionConfig
+	// initialRouteName: 'RestaurantMenu',
 });
 
 //My Profile Stack
@@ -91,6 +123,12 @@ const MyProfileStack = createStackNavigator({
 	ChangePassword: {
 		screen: ChangePassword
 	}
+}, {
+	// initialRoutßeName: 'RestaurantMenu',
+	initialRouteName: 'MyProfile',
+	initialRouteParams: { transition: 'fade' },
+	transitionConfig
+	// initialRouteName: 'RestaurantMenu',
 });
 
 MyProfileStack.navigationOptions = ({ navigation }) => {
@@ -156,7 +194,7 @@ const TabNavigator = createBottomTabNavigator({
 				</View>
 			),
 			tabBarLabel: <View />,
-			keyboardHidesTabBar:true
+			keyboardHidesTabBar: true
 		})
 	},
 	MyBooking: {
@@ -177,10 +215,10 @@ const TabNavigator = createBottomTabNavigator({
 				</View>
 			),
 			tabBarLabel: <View />,
-			keyboardHidesTabBar:true
+			keyboardHidesTabBar: true
 		})
 	},
-	
+
 	ContactUs: {
 		screen: ContactUsStack,
 		navigationOptions: () => ({
@@ -199,7 +237,7 @@ const TabNavigator = createBottomTabNavigator({
 				</View>
 			),
 			tabBarLabel: <View />,
-			keyboardHidesTabBar:true
+			keyboardHidesTabBar: true
 		})
 	},
 	MyProfile: {
@@ -220,7 +258,7 @@ const TabNavigator = createBottomTabNavigator({
 				</View>
 			),
 			tabBarLabel: <View />,
-			keyboardHidesTabBar:true
+			keyboardHidesTabBar: true
 		})
 	}
 }, {
@@ -332,4 +370,6 @@ export default class App extends Component {
 				</Provider >
 			)
 	}
+
+
 }

@@ -7,6 +7,8 @@ function setTopLevelNavigator(navigatorRef) {
 }
 
 function navigate(routeName, params) {
+	!params ? params = { transition: 'horizontal' } : null
+	!params.transition ? params.transition = 'horizontal' : null
 	navigator.dispatch(
 		NavigationActions.navigate({
 			routeName,

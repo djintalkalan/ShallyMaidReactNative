@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, Image, ActivityIndicator, AsyncStorage, FlatList, TouchableOpacity, TouchableHighlight, ImageBackground } from 'react-native';
 import { TextBold, TextRegular, TextHeading } from '../../custom/text'
 import { SafeAreaView } from 'react-navigation';
-import { Constants, Images, GlobalStyle } from '../../../utils';
+import { Constants, Images, GlobalStyle, strings } from '../../../utils';
 import MyStatusBar from '../../custom/my-status-bar'
 import Carousel from 'react-native-looped-carousel';
 import { connect } from 'react-redux'
@@ -11,7 +11,7 @@ import styles from './style';
 import Ripple from 'react-native-material-ripple';
 import CardView from 'react-native-cardview'
 import NavigationService from '../../../services/NavigationServices';
-import { serviceListApi } from '../../../services/APIService'
+import { serviceListApi, ImageGetApi } from '../../../services/APIService'
 import { ScrollView } from 'react-native-gesture-handler';
 
 class Home extends Component {
@@ -21,13 +21,6 @@ class Home extends Component {
 	};
 
 	componentDidMount() {
-		let dat = []
-		for (let i = 0; i < 10; i++) {
-			dat.push('http://homepages.cae.wisc.edu/~ece533/images/monarch.png');
-			if (i == 9) {
-				//alert(dat[9])
-			}
-		}
 		AsyncStorage.getItem(Constants.STORAGE_KEY.userData, (error, result) => {
 			if (error) {
 				console.log("ERROR:" + JSON.stringify(error))
@@ -53,9 +46,8 @@ class Home extends Component {
 				}
 			}
 		})
-
-		this.setState({ data: dat })
 		this.callServiceListApi()
+		this.callImageGetApi()
 	}
 
 	constructor(props) {
@@ -71,29 +63,57 @@ class Home extends Component {
 	}
 
 	cardPressed(item, index) {
-		NavigationService.navigate('SecondHome', { navigateFrom: "Home", data: item })
+		NavigationService.navigate('Category', { transition: 'vertical', navigateFrom: "Home", data: item })
 	}
 
-	_renderItem(item, index) {
-		return (
-			<TouchableOpacity
-				activeOpacity={0.85}
-				onPress={() => { }}
-				style={{
-					width: Constants.Screen.width, height: 160, alignItems: "center", justifyContent: 'flex-start'
-					, elevation: 3, overflow: 'hidden',
-				}}>
-
-				<Image source={{ uri: item }}
+	_renderItem(item, index, ii) {
+		if (ii) {
+			return (
+				<TouchableOpacity
+					activeOpacity={0.85}
+					onPress={() => { }}
 					style={{
-						width: Constants.Screen.width - 20,
-						height: 160,
-						borderRadius: 5,
-						resizeMode: 'cover',
+						width: Constants.Screen.width, height: 160, alignItems: "center", justifyContent: 'flex-start'
+						, elevation: 3, overflow: 'hidden',
+					}}>
 
-					}} />
-			</TouchableOpacity>
-		);
+					<Image source={{ uri: item }}
+						style={{
+							width: Constants.Screen.width - 20,
+							height: 160,
+							borderRadius: 5,
+							resizeMode: 'cover',
+
+						}} />
+				</TouchableOpacity>
+			)
+		} else {
+			return (
+				<View
+					style={{
+						width: Constants.Screen.width, height: 160, alignItems: "center", justifyContent: 'flex-start'
+						, elevation: 3, overflow: 'hidden',
+					}}>
+
+					<View
+						style={{
+							width: Constants.Screen.width - 20,
+							height: 160,
+							borderRadius: 5,
+							backgroundColor: '#909090',
+							alignItems: 'center',
+							justifyContent: 'center',
+							resizeMode: 'cover',
+
+						}} >
+
+						{<ActivityIndicator
+							size={"large"}
+							color={Constants.color.primary}
+							animating={true} />}
+					</View>
+				</View>)
+		}
 	}
 
 	renderFlatListItem() {
@@ -191,6 +211,53 @@ class Home extends Component {
 
 	}
 
+	callImageGetApi() {
+
+
+
+		let url = Constants.URL.baseURL + '/' + Constants.URL.vesrion + '/' + Constants.URL.getImage
+
+		ImageGetApi(url).then(res => {
+			let dat = []
+			for (let i = 0; i < 10; i++) {
+				dat.push('http://homepages.cae.wisc.edu/~ece533/images/monarch.png');
+
+			}
+			this.setState({ data: dat })
+
+			if (res && res.success) {
+				console.log("DEALS_RESPONSE:" + JSON.stringify(res))
+				this.setState({
+					data: res.data
+				})
+
+			} else {
+				this.setState({
+				}, () => {
+					if (res && res.error) {
+						//	alert(res.error)
+					}
+				})
+			}
+
+		}).catch(err => {
+			this.setState({
+			})
+			setTimeout(() => {
+				if (err) {
+					//alert(JSON.stringify(err));
+					let dat = []
+					for (let i = 0; i < 10; i++) {
+						dat.push('http://homepages.cae.wisc.edu/~ece533/images/monarch.png');
+
+					}
+					this.setState({ data: dat })
+				}
+			}, 100);
+		});
+
+	}
+
 	renderProgressBar() {
 		if (this.state.isLoading) {
 			return (
@@ -211,25 +278,27 @@ class Home extends Component {
 	}
 
 	render() {
+		lc = [1, 1, 1, 1, 1];
 		return (
 			<View style={styles.container}>
 				<SafeAreaView style={{ backgroundColor: Constants.color.primary }} />
 				<ScrollView>
 					<View>
-						<MyStatusBar title="Home" />
+						<MyStatusBar title={strings.app_name} />
 						<View style={{ flex: 1 }}>
 
 							<TextHeading title="Current Offers" textStyle={{ fontSize: 12, padding: 15 }} />
 
 							<View style={{}}>
-								{this.state.data.length > 0 ?
+								{
 									<Carousel
 										delay={5000}
 										style={{ width: Constants.Screen.width, height: 160 }}
 										autoplay
 									>
-										{this.state.data.map((item, index) => this._renderItem(item, index))}
-									</Carousel> : null}
+										{this.state.data.length > 0 ? this.state.data.map((item, index) => this._renderItem(item, index, true)) :
+											lc.length > 0 ? lc.map((item, index) => this._renderItem(item, index, false)) : null}
+									</Carousel>}
 							</View>
 							<TextHeading title="Services" textStyle={{ fontSize: 12, padding: 15, paddingBottom: 5 }} />
 							<View >
@@ -254,13 +323,15 @@ class Home extends Component {
 												backgroundColor: "white",
 												margin: 0.3
 											}}>
-												<Ripple style={{width:'100%',height:'100%',
-												flexDirection: 'column',
-												alignItems: 'center',
-												justifyContent: 'center',}}>
-												<Image style={styles.imageThumbnail}
-													source={{ uri: Constants.URL.baseURL + Constants.URL.assets + Constants.URL.icons + item.icon }} />
-												<TextBold  title={item.name} textStyle={{ fontSize: 10, textAlign: 'center', padding: 5 }} />
+												<Ripple style={{
+													width: '100%', height: '100%',
+													flexDirection: 'column',
+													alignItems: 'center',
+													justifyContent: 'center',
+												}}>
+													<Image style={styles.imageThumbnail}
+														source={{ uri: Constants.URL.baseURL + Constants.URL.assets + Constants.URL.icons + item.icon }} />
+													<TextBold title={item.name} textStyle={{ fontSize: 10, textAlign: 'center', padding: 5 }} />
 												</Ripple>
 											</View>
 										)}

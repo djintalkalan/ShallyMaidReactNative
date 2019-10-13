@@ -5,20 +5,17 @@ import { Fonts, Constants, strings } from '../../../utils'
 export default StyleSheet.create({
     container: {
         flex: 1,
+        backgroundColor: "#f0f0f0"
     },
     flatListTouch: {
-        borderRadius: 5, overflow: "hidden",
-        elevation: 1,
-        margin: 2,
+        borderRadius: 10, overflow: "hidden",
+        margin: 10,
         flexDirection: 'row',
+        alignItems: 'center',
+        backgroundColor: 'white',
+        padding: 15
     },
-    subcatItemTouch:{
-        overflow: "hidden",
-        elevation: 0.5,
-        margin: 5,
-        flexDirection: 'row',
-    }
 
-    
+
 
 })
