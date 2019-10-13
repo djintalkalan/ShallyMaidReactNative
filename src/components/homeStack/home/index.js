@@ -285,9 +285,9 @@ class Home extends Component {
 				<ScrollView>
 					<View>
 						<MyStatusBar title={strings.app_name} />
-						<View style={{ flex: 1 }}>
+						<View style={{ flex: 1, backgroundColor: '#f0f0f0', }}>
 
-							<TextHeading title="Current Offers" textStyle={{ fontSize: 12, padding: 15 }} />
+							<TextHeading title="Current Offers" textStyle={{ fontSize: 12, paddingHorizontal: 15, paddingVertical: 5 }} />
 
 							<View style={{}}>
 								{

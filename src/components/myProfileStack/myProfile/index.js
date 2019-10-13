@@ -107,7 +107,9 @@ class MyProfile extends Component {
 			<View style={styles.container}>
 				<SafeAreaView style={{ backgroundColor: Constants.color.primary }} />
 				<MyStatusBar title={"My Profile"} />
-				<View style={{ flex: 1, paddingTop: 10, paddingBottom: 10, paddingHorizontal: 25, alignItems: 'center' }}>
+				<View style={{
+					flex: 1, paddingTop: 10, paddingBottom: 10, paddingHorizontal: 25, alignItems: 'center', backgroundColor: "#f0f0f0"
+				}}>
 					{/* 
 					<View style={{ flexDirection: 'row', width: '100%' }} >
 						<TextBold title={"Name:"} textStyle={{ padding: 2, width: '30%' }} />

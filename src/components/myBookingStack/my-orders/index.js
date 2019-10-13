@@ -4,7 +4,7 @@ import MyStatusBar from '../../custom/my-status-bar'
 import { connect } from 'react-redux'
 import styles from './style'
 import { Constants, Images, GlobalStyle, strings } from '../../../utils';
-import { TextHeading, TextLite, TextRegular, } from '../../custom/text'
+import { TextHeading, TextLite, TextRegular, TextBoldItalic, } from '../../custom/text'
 import Ripple from 'react-native-material-ripple';
 import NavigationService from '../../../services/NavigationServices';
 import { getMyOrderApi } from '../../../services/APIService'
@@ -115,7 +115,7 @@ class MyOrders extends Component {
 			})
 			setTimeout(() => {
 				if (err) {
-					alert(JSON.stringify(err));
+					//alert(JSON.stringify(err));
 				}
 			}, 100);
 		});
@@ -169,10 +169,17 @@ class MyOrders extends Component {
 			})
 			setTimeout(() => {
 				if (err) {
-					alert(JSON.stringify(err));
+					//alert(JSON.stringify(err));
 				}
 			}, 100);
 		});
+	}
+
+	noBooking() {
+		return <View style={{ paddingHorizontal: 15, flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+			<Image source={Images.ic_sad} style={{ width: '40%', resizeMode: 'contain' }}></Image>
+			<TextBoldItalic title={"No Booking Found"} style={{ fontSize: 30 }} />
+		</View>
 	}
 
 	calculateStatus(id) {
@@ -191,7 +198,7 @@ class MyOrders extends Component {
 
 			<Ripple
 				style={styles.mainCard}
-				onPress={() => { NavigationService.navigate('OrderDetail', { navigateFrom: 'MyOrders', orderObject: item }) }}
+				onPress={() => { NavigationService.navigate('OrderDetail', { transition: 'fade', navigateFrom: 'MyOrders', orderObject: item }) }}
 				rippleColor={Constants.color.black}>
 				<View style={{ flexDirection: 'row', margin: 10, alignItems: 'center' }}>
 					<TextRegular textStyle={{ fontSize: 10 }} title={"Placed - " + item.addedon} />
@@ -252,7 +259,7 @@ class MyOrders extends Component {
 				<SafeAreaView style={{ backgroundColor: Constants.color.primary }} />
 				<MyStatusBar title={strings.my_orders} />
 				<View style={{ flex: 1, paddingBottom: 10, paddingHorizontal: 5 }}>
-					{this.state.orderList == null ? null :
+					{this.state.orderList == null ? this.noBooking() :
 						<FlatList
 							// onRefresh={this.mRefresh}
 							// refreshing={this.state.isRefreshing}

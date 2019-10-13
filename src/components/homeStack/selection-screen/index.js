@@ -319,7 +319,7 @@ class SelectionScreen extends Component {
 							this.state.selectedItems.selectedCategory.name + "-" +
 							this.state.selectedItems.selectedSubCategory.name}
 						textStyle={{ color: '#808080', fontSize: 12, fontWeight: '800', padding: 2 }} />
-				</View>code
+				</View>
 
 
 
@@ -438,10 +438,10 @@ class SelectionScreen extends Component {
 								style={styles.viewInput}>
 								<TextBold title={"Select Booking Date:"} textStyle={{}} />
 								<TouchableOpacity style={styles.inputLayout}
-									onPress={() => { this.showDatePicker() }}>code
-									<TextInputcode
-										pointerEvents="none" code
-										editable={false} code
+									onPress={() => { this.showDatePicker() }}>
+									<TextInput
+										pointerEvents="none"
+										editable={false}
 										value={this.state.bookingDate}
 										style={styles.textInput}
 										placeholder={strings.hint_booking_date} />
