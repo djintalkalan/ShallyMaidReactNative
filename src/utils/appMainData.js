@@ -3,178 +3,232 @@ import { Images } from './images'
 
 export const AppMainData = [
   {
-    id: 1,
-    title: "Home Maids",
-    desc: "Floor|Kitchen|Flat",
-    img: Images.maid,
-    child: [
-      {
-        childId: 1,
-        childName: "Flat",
-        parentId: 1
-      },
-      {
-        childId: 2,
-        childName: "One BHK",
-        parentId: 1
-      },
-      {
-        childId: 3,
-        childName: "Two BHK",
-        parentId: 1
-      },
-      {
-        childId: 4,
-        childName: "Three BHK",
-        parentId: 1
-      },
-      {
-        childId: 5,
-        childName: "Other",
-        parentId: 1
-      }
-    ]
+      "id": "1",
+      "name": "Home Maids",
+      "description": "Floor|Kitchen|Flat",
+      "img": "",
+      "icon": null,
+      "category": [
+          {
+              "id": "1",
+              "service_id": "",
+              "name": "Flat",
+              "description": "",
+              "img": "",
+              "addedon": "",
+              "updatedon": "",
+              "subcategory": [
+                  {
+                      "id": "1",
+                      "category_id": "1",
+                      "service_id": "",
+                      "name": "One BHK",
+                      "description": "",
+                      "img": "",
+                      "addedon": "",
+                      "updatedon": ""
+                  },
+                  {
+                      "id": "2",
+                      "category_id": "1",
+                      "service_id": "",
+                      "name": "Two BHK",
+                      "description": "",
+                      "img": "",
+                      "addedon": "",
+                      "updatedon": ""
+                  },
+                  {
+                      "id": "3",
+                      "category_id": "1",
+                      "service_id": "",
+                      "name": "Three BHK",
+                      "description": "",
+                      "img": "",
+                      "addedon": "",
+                      "updatedon": ""
+                  }
+              ]
+          },
+          {
+              "id": "15",
+              "service_id": "",
+              "name": "Other",
+              "description": "",
+              "img": "",
+              "addedon": "",
+              "updatedon": "",
+              "subcategory": null
+          }
+      ],
+      "addedon": "",
+      "updatedon": ""
   },
   {
-    id: 2,
-    title: "Cook",
-    desc: "Familly|PG|Restaurent",
-    img: Images.maid,
-    child: [
-      {
-        childId: 1,
-        childName: "For Family",
-        parentId: 2
-      },
-      {
-        childId: 2,
-        childName: "For PG",
-        parentId: 2
-      },
-      {
-        childId: 3,
-        childName: "For Restaurent",
-        parentId: 2
-      },
-      {
-        childId: 4,
-        childName: "Other",
-        parentId: 2
-      }
-    ]
+      "id": "2",
+      "name": "Cook",
+      "description": "Family|PG|Restaurent",
+      "img": "",
+      "icon": null,
+      "category": [
+          {
+              "id": "2",
+              "service_id": "",
+              "name": "Home",
+              "description": "",
+              "img": "",
+              "addedon": "",
+              "updatedon": "",
+              "subcategory": null
+          },
+          {
+              "id": "3",
+              "service_id": "",
+              "name": "PG",
+              "description": "",
+              "img": "",
+              "addedon": "",
+              "updatedon": "",
+              "subcategory": null
+          },
+          {
+              "id": "4",
+              "service_id": "",
+              "name": "Restaurant",
+              "description": "",
+              "img": "",
+              "addedon": "",
+              "updatedon": "",
+              "subcategory": null
+          },
+          {
+              "id": "15",
+              "service_id": "",
+              "name": "Other",
+              "description": "",
+              "img": "",
+              "addedon": "",
+              "updatedon": "",
+              "subcategory": null
+          }
+      ],
+      "addedon": "",
+      "updatedon": ""
   },
   {
-    id: 3,
-    title: "Beauty, Mehndi, Makeup",
-    desc: "Wax|Facial|Hair",
-    img: Images.maid,
-    child: [
-      {
-        childId: 1,
-        childName: "Wax",
-        parentId: 3
-      },
-      {
-        childId: 2,
-        childName: "Mehndi",
-        parentId: 3
-      },
-      {
-        childId: 3,
-        childName: "Makeup",
-        parentId: 3
-      },
-      {
-        childId: 4,
-        childName: "Other",
-        parentId: 3
-      }
-    ]
+      "id": "3",
+      "name": "Beauty, Mehndi, Makeup",
+      "description": "Wax|Facial|Hair",
+      "img": "",
+      "icon": null,
+      "category": [
+          {
+              "id": "5",
+              "service_id": "",
+              "name": "Wax",
+              "description": "",
+              "img": "",
+              "addedon": "",
+              "updatedon": "",
+              "subcategory": null
+          },
+          {
+              "id": "6",
+              "service_id": "",
+              "name": "Mehndi",
+              "description": "",
+              "img": "",
+              "addedon": "",
+              "updatedon": "",
+              "subcategory": null
+          },
+          {
+              "id": "7",
+              "service_id": "",
+              "name": "Makeup",
+              "description": "",
+              "img": "",
+              "addedon": "",
+              "updatedon": "",
+              "subcategory": null
+          },
+          {
+              "id": "15",
+              "service_id": "",
+              "name": "Other",
+              "description": "",
+              "img": "",
+              "addedon": "",
+              "updatedon": "",
+              "subcategory": null
+          }
+      ],
+      "addedon": "",
+      "updatedon": ""
   },
   {
-    id: 4,
-    title: "Electrician, Plumber, Carpenter",
-    desc: "Repair|Installation",
-    img: Images.maid,
-    child: [
-      {
-        childId: 1,
-        childName: "Electrician",
-        parentId: 4
-      },
-      {
-        childId: 2,
-        childName: "Plumber",
-        parentId: 4
-      },
-      {
-        childId: 3,
-        childName: "Carpenter",
-        parentId: 4
-      },
-      {
-        childId: 4,
-        childName: "Other",
-        parentId: 4
-      }
-    ]
+      "id": "4",
+      "name": "Electrician, Plumber, Carpenter",
+      "description": "Repair|Installation",
+      "img": "",
+      "icon": null,
+      "category": [
+          {
+              "id": "15",
+              "service_id": "",
+              "name": "Other",
+              "description": "",
+              "img": "",
+              "addedon": "",
+              "updatedon": "",
+              "subcategory": null
+          }
+      ],
+      "addedon": "",
+      "updatedon": ""
   },
   {
-    id: 5,
-    title: "Pantry Boy",
-    desc: "Office|Kitchen|Mess",
-    img: Images.maid,
-    child: [
-      {
-        childId: 1,
-        childName: "Office",
-        parentId: 5
-      },
-      {
-        childId: 2,
-        childName: "Party Halls",
-        parentId: 5
-      },
-      {
-        childId: 3,
-        childName: "Mess",
-        parentId: 5
-      },
-      {
-        childId: 4,
-        childName: "Other",
-        parentId: 5
-      }
-    ]
+      "id": "5",
+      "name": "Pantry Boy",
+      "description": "Office|Kitchen|Mess",
+      "img": "",
+      "icon": null,
+      "category": [
+          {
+              "id": "15",
+              "service_id": "",
+              "name": "Other",
+              "description": "",
+              "img": "",
+              "addedon": "",
+              "updatedon": "",
+              "subcategory": null
+          }
+      ],
+      "addedon": "",
+      "updatedon": ""
   },
   {
-    id: 6,
-    title: "Gardner",
-    desc: "Garden|Daily|SingleDay",
-    img: Images.maid,
-    child: [
-      {
-        childId: 1,
-        childName: "Home",
-        parentId: 5
-      },
-      {
-        childId: 2,
-        childName: "Office",
-        parentId: 5
-      },
-      {
-        childId: 3,
-        childName: "School",
-        parentId: 5
-      },
-      {
-        childId: 4,
-        childName: "Other",
-        parentId: 5
-      }
-    ]
-  },
+      "id": "6",
+      "name": "Gardner",
+      "description": "Garden|Daily|SingleDay",
+      "img": "",
+      "icon": null,
+      "category": [
+          {
+              "id": "15",
+              "service_id": "",
+              "name": "Other",
+              "description": "",
+              "img": "",
+              "addedon": "",
+              "updatedon": "",
+              "subcategory": null
+          }
+      ],
+      "addedon": "",
+      "updatedon": ""
+  }
 ]
 
 

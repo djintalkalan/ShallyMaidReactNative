@@ -22,6 +22,8 @@ export const Images = {
       ic_thinking: require('../assets/img/ic_thinking.png'),
       ic_loading: require('../assets/img/ic_loading.gif'),
       ic_deliveryman: require('../assets/img/ic_deliveryman.png'),
+      ic_phone_primary: require('../assets/img/ic_phone_primary.png'),
+      ic_lock_primary: require('../assets/img/ic_lock_primary.png'),
       //ic_loading:require('../assets/img/ic_loading.gif'),
 
 }

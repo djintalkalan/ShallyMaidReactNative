@@ -184,18 +184,21 @@ class MyOrders extends Component {
 
 	calculateStatus(id) {
 		switch (parseInt(id)) {
-			case Constants.ORDER_STATUS.processing_1:
+			case Constants.ORDER_STATUS.processing:
 				return <TextHeading title={strings.processing} textStyle={styles.textAmountProcessing} />
-			case Constants.ORDER_STATUS.preparing_2:
-				return <TextHeading title={"Seen"} textStyle={styles.textAmountProcessing} />
-			case Constants.ORDER_STATUS.preparing_3:
-				return <TextHeading title={"Proccessed"} textStyle={styles.textAmountProcessing} />
+			case Constants.ORDER_STATUS.seenbyadmin:
+				return <TextHeading title={"Seen by Admin"} textStyle={styles.textAmountProcessing} />
+			case Constants.ORDER_STATUS.acceptedbyadmin:
+				return <TextHeading title={"Accepted by Admin"} textStyle={styles.textAmountProcessing} />
+			case Constants.ORDER_STATUS.completed:
+				return <TextHeading title={"Completed"} textStyle={styles.textAmountProcessing} />
+			case Constants.ORDER_STATUS.cancelled:
+				return <TextHeading title={"Cancelled"} textStyle={styles.textAmountProcessing} />
 		}
 	}
 	renderFlatListItem({ item, index }) {
 		console.log("ITEM", JSON.stringify(item))
 		return (
-
 			<Ripple
 				style={styles.mainCard}
 				onPress={() => { NavigationService.navigate('OrderDetail', { transition: 'fade', navigateFrom: 'MyOrders', orderObject: item }) }}

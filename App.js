@@ -29,9 +29,8 @@ import Subcategory from './src/components/homeStack/subcategory';
 import SelectionScreen from './src/components/homeStack/selection-screen'
 import OrderConfirmation from './src/components/homeStack/order-confirmation'
 
-//Deals tab screens
-import Deals from './src/components/dealsStack/deals';
-import SecondDeals from './src/components/dealsStack/second';
+//contactUs tab screens
+import ContactUs from './src/components/contactUsStack/contactUs'
 
 //Profile tab screens
 import MyProfile from './src/components/myProfileStack/myProfile';
@@ -101,15 +100,12 @@ const MyBookingStack = createStackNavigator({
 
 //Contact us Stack
 const ContactUsStack = createStackNavigator({
-	Deals: {
-		screen: Deals
-	},
-	SecondDeals: {
-		screen: SecondDeals
+	ContactUs: {
+		screen: ContactUs
 	},
 }, {
 	// initialRoutßeName: 'RestaurantMenu',
-	initialRouteName: 'Deals',
+	initialRouteName: 'ContactUs',
 	initialRouteParams: { transition: 'fade' },
 	transitionConfig
 	// initialRouteName: 'RestaurantMenu',
@@ -281,7 +277,7 @@ export default class App extends Component {
 
 
 	componentDidMount = async () => {
-		SplashScreen.hide();
+
 
 		console.log('App')
 		try {
@@ -297,7 +293,9 @@ export default class App extends Component {
 				isLoginI = 2
 			}
 			this.setState({ isLoginI: isLoginI }, () => {
-				SplashScreen.hide();
+				setTimeout(() => {
+					SplashScreen.hide();
+				}, 50);
 			})
 
 
@@ -352,23 +350,16 @@ export default class App extends Component {
 			)
 		);
 		console.disableYellowBox = true;
-		if (this.state.isLoginI == 0) {
-			return (
-				<View style={{ flex: 1 }}
-				>
-					{this.renderProgressBar()}
-				</View>
-			)
-		} else
-			return (
-				<Provider store={store}>
-					<Navigations
-						ref={navigatorRef => {
-							NavigationService.setTopLevelNavigator(navigatorRef);
-						}}
-					/>
-				</Provider >
-			)
+
+		return (
+			<Provider store={store}>
+				<Navigations
+					ref={navigatorRef => {
+						NavigationService.setTopLevelNavigator(navigatorRef);
+					}}
+				/>
+			</Provider >
+		)
 	}
 
 

@@ -13,6 +13,7 @@ import CardView from 'react-native-cardview'
 import NavigationService from '../../../services/NavigationServices';
 import { serviceListApi, ImageGetApi } from '../../../services/APIService'
 import { ScrollView } from 'react-native-gesture-handler';
+import { AppMainData } from '../../../utils/appMainData';
 
 class Home extends Component {
 	static navigationOptions = {
@@ -59,6 +60,7 @@ class Home extends Component {
 			data: [],
 			serviceList: [],
 			isLoading: false,
+			iconList: []
 		}
 	}
 
@@ -73,16 +75,16 @@ class Home extends Component {
 					activeOpacity={0.85}
 					onPress={() => { }}
 					style={{
-						width: Constants.Screen.width, height: 160, alignItems: "center", justifyContent: 'flex-start'
+						width: Constants.Screen.width, height: '100%', alignItems: "center", justifyContent: 'flex-start'
 						, elevation: 3, overflow: 'hidden',
 					}}>
 
 					<Image source={{ uri: item }}
 						style={{
 							width: Constants.Screen.width - 20,
-							height: 160,
+							height: '100%',
 							borderRadius: 5,
-							resizeMode: 'cover',
+							resizeMode: 'stretch',
 
 						}} />
 				</TouchableOpacity>
@@ -116,60 +118,42 @@ class Home extends Component {
 		}
 	}
 
-	renderFlatListItem() {
+
+	renderFlatListItem(t) {
+		const list = this.state.serviceList;
 		return (
-			this.state.serviceList.map((item, index) => (
+			list.map((item, index) => {
+				if (t == 2 && !item.alter_name) return null
+				let img = t == 1 ? item.img : item.alter_img ? item.alter_img : item.img
+				return (
+					<ImageBackground
+						imageStyle={{ borderRadius: 10 }}
+						source={{ uri: Constants.URL.baseURL + Constants.URL.assets + Constants.URL.img + img }}
+						resizeMode={"cover"}
+						style={{ marginHorizontal: 15, marginVertical: 10 }}>
+						<Ripple
+							style={styles.flatListTouch}
+							onPress={() => { this.cardPressed(item, index) }}
+							rippleColor={Constants.color.black}>
 
-				<ImageBackground
-					imageStyle={{ borderRadius: 10 }}
-					source={{ uri: Constants.URL.baseURL + Constants.URL.assets + Constants.URL.img + item.img }}
-					resizeMode={"cover"}
-					style={{ marginHorizontal: 15, marginVertical: 10 }}>
-					<Ripple
-						style={styles.flatListTouch}
-						onPress={() => { this.cardPressed(item, index) }}
-						rippleColor={Constants.color.black}>
-
-						<View style={{ width: '100%', height: 110, justifyContent: 'flex-end', padding: 15 }}>
-							<View style={{ alignItems: 'flex-start' }}>
-								<TextHeading
-									title={item.name}
-									textStyle={{ fontSize: 12, color: Constants.color.white }} />
-								<TextRegular
-									title={item.description}
-									textStyle={{ fontSize: 9, color: Constants.color.white }} />
+							<View style={{ width: '100%', height: 110, justifyContent: 'flex-end', padding: 15 }}>
+								<View style={{ alignItems: 'flex-start' }}>
+									<TextHeading
+										title={t == 1 ? item.name : item.alter_name}
+										textStyle={{ fontSize: 12, color: Constants.color.white }} />
+									<TextRegular
+										title={t == 1 ? item.description : item.alter_description}
+										textStyle={{ fontSize: 9, color: Constants.color.white }} />
+								</View>
 							</View>
-						</View>
 
-					</Ripple>
-				</ImageBackground>))
+						</Ripple>
+					</ImageBackground>)
+			})
 		)
 	}
 
 
-	renderGridViewItems() {
-		let serviceList = this.state.serviceList;
-
-		// let matrix = [], i, k;
-
-		// for (i = 0, k = -1; i < serviceList.length; i++) {
-		// 	if (i % 3 === 0) {
-		// 		k++;
-		// 		matrix[k] = [];
-		// 	}
-		// 	matrix[k].push(serviceList[i]);
-		// }
-
-		// return matrix.map((row, index) => (
-		// 	<View style={{width:"100%"}}>
-
-		// 	</View>
-		// ));
-
-
-
-
-	}
 
 	callServiceListApi() {
 
@@ -183,9 +167,20 @@ class Home extends Component {
 
 			if (res && res.success) {
 				console.log("DEALS_RESPONSE:" + JSON.stringify(res))
+				let b = JSON.stringify(res.data);
+				let d = JSON.parse(b);
+				switch (d.length % 3) {
+					case 1:
+						d.splice(d.length - 1, 1);
+						break;
+					case 2:
+						d.splice(d.length - 2, 2);
+						break;
+				}
 				this.setState({
 					isLoading: false,
-					serviceList: res.data
+					serviceList: res.data,
+					iconList: d
 				})
 
 			} else {
@@ -201,10 +196,12 @@ class Home extends Component {
 		}).catch(err => {
 			this.setState({
 				isLoading: false,
+				//serviceList: AppMainData
 			})
 			setTimeout(() => {
 				if (err) {
 					alert(JSON.stringify(err));
+
 				}
 			}, 100);
 		});
@@ -213,22 +210,25 @@ class Home extends Component {
 
 	callImageGetApi() {
 
-
-
 		let url = Constants.URL.baseURL + '/' + Constants.URL.vesrion + '/' + Constants.URL.getImage
 
 		ImageGetApi(url).then(res => {
 			let dat = []
-			for (let i = 0; i < 10; i++) {
+			for (let i = 0; i < res.length; i++) {
 				dat.push('http://homepages.cae.wisc.edu/~ece533/images/monarch.png');
 
 			}
 			this.setState({ data: dat })
 
-			if (res && res.success) {
+			if (res) {
+				let a = []
+				res.forEach(element => {
+					a.push(Constants.URL.baseURL + Constants.URL.assets + Constants.URL.img + element)
+				});
 				console.log("DEALS_RESPONSE:" + JSON.stringify(res))
 				this.setState({
-					data: res.data
+					data: a,
+
 				})
 
 			} else {
@@ -287,13 +287,13 @@ class Home extends Component {
 						<MyStatusBar title={strings.app_name} />
 						<View style={{ flex: 1, backgroundColor: '#f0f0f0', }}>
 
-							<TextHeading title="Current Offers" textStyle={{ fontSize: 12, paddingHorizontal: 15, paddingVertical: 5 }} />
+							{/* <TextHeading title="Current Offers" textStyle={{ fontSize: 12, paddingHorizontal: 15, paddingVertical: 5 }} /> */}
 
-							<View style={{}}>
+							<View style={{ paddingTop: 10 }}>
 								{
 									<Carousel
 										delay={5000}
-										style={{ width: Constants.Screen.width, height: 160 }}
+										style={{ width: Constants.Screen.width, height: 180, elevation: 5 }}
 										autoplay
 									>
 										{this.state.data.length > 0 ? this.state.data.map((item, index) => this._renderItem(item, index, true)) :
@@ -302,7 +302,7 @@ class Home extends Component {
 							</View>
 							<TextHeading title="Services" textStyle={{ fontSize: 12, padding: 15, paddingBottom: 5 }} />
 							<View >
-								{this.renderFlatListItem()}
+								{this.renderFlatListItem(1)}
 							</View>
 							<View >
 								<CardView
@@ -315,7 +315,7 @@ class Home extends Component {
 									borderColor={"white"}
 									cardElevation={2}>
 									<FlatList
-										data={this.state.serviceList}
+										data={this.state.iconList}
 										renderItem={({ item }) => (
 											<View style={{
 												flex: 1,
@@ -328,7 +328,7 @@ class Home extends Component {
 													flexDirection: 'column',
 													alignItems: 'center',
 													justifyContent: 'center',
-												}}>
+												}} onPress={() => { this.cardPressed(item, 1) }} >
 													<Image style={styles.imageThumbnail}
 														source={{ uri: Constants.URL.baseURL + Constants.URL.assets + Constants.URL.icons + item.icon }} />
 													<TextBold title={item.name} textStyle={{ fontSize: 10, textAlign: 'center', padding: 5 }} />
@@ -341,7 +341,9 @@ class Home extends Component {
 									/>
 								</CardView>
 							</View>
-
+							<View >
+								{this.renderFlatListItem(2)}
+							</View>
 						</View>
 					</View>
 				</ScrollView>

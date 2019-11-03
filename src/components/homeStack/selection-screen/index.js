@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, ActivityIndicator, Image, TextInput, SafeAreaView, TouchableOpacity, ScrollView } from 'react-native';
+import { View, ActivityIndicator, Keyboard, TextInput, SafeAreaView, TouchableOpacity, ScrollView } from 'react-native';
 import { TextBold, TextRegular, TextHeading } from '../../custom/text';
 import { Constants, GlobalStyle, strings, Fonts } from '../../../utils';
 import { placeOrderApi } from '../../../services/APIService'
@@ -74,10 +74,14 @@ class SelectionScreen extends Component {
 			familyMembers: "",
 			isLoading: false,
 			isWeekDaysSelected: false,
-			isWeekEndsSelected: false
+			isWeekEndsSelected: false,
+			keyHeight:15
 		}
 	}
 	componentDidMount() {
+		this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this.keyboardDidShow.bind(this))
+		this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this.keyboardDidHide.bind(this))
+	  
 		const { navigation } = this.props;
 		const navigateFrom = navigation.getParam('navigateFrom', '');
 		const selectedItems = navigation.getParam('selectedItems', '');
@@ -87,6 +91,22 @@ class SelectionScreen extends Component {
 			}, () => { currentPage = 0; })
 		}
 	}
+	componentWillUnmount () {
+		this.keyboardDidShowListener.remove()
+		this.keyboardDidHideListener.remove()
+	  }
+
+	  keyboardDidShow (e) {
+		this.setState({
+		  keyHeight: e.endCoordinates.height+15,
+		})
+	  }
+	  
+	  keyboardDidHide (e) {
+		this.setState({
+		  keyHeight: 15,
+		})
+	  }  
 
 	showDatePicker = () => {
 		this.setState({ isDatePickerVisible: true });
@@ -274,7 +294,7 @@ class SelectionScreen extends Component {
 			alignItems: 'center',
 			justifyContent: 'center',
 			width: '100%',
-			bottom: 15
+			bottom: this.state.keyHeight
 		}}>
 			<View style={{ flexDirection: 'row', width: '100%', justifyContent: 'center' }} >
 				<View style={{ width: '50%', alignItems: 'center' }} >
@@ -518,6 +538,7 @@ class SelectionScreen extends Component {
 						placeholder="Type Your Address"
 						placeholderTextColor="grey"
 						numberOfLines={5}
+						maxLength={100}
 						value={this.state.address}
 						onChangeText={(text) => this.addressChanged(text)}
 						multiline={true}
@@ -558,7 +579,7 @@ class SelectionScreen extends Component {
 				alignItems: 'center',
 				justifyContent: 'center',
 				width: '100%',
-				bottom: 15
+				bottom: this.state.keyHeight
 			}}>
 				<View style={{ flexDirection: 'column', width: '100%', justifyContent: 'center' }} >
 

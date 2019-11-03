@@ -66,6 +66,10 @@ export async function getMyOrderApi(url, param) {
     return fetchApiData(url, param, Constants.API_METHOD.post)
 }
 
+export async function getOrderDetailsApi(url, param) {
+    return fetchApiData(url, param, Constants.API_METHOD.post)
+}
+
 export async function serviceListApi(url) {
     return fetchApiData(url, '', Constants.API_METHOD.get)
 }

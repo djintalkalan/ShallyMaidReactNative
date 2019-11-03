@@ -48,7 +48,8 @@ export default StyleSheet.create({
         borderWidth: 1,
         borderRadius: 10,
         margin: 20,
-        padding: 5
+        padding: 5,
+        maxHeight:100
     },
     textArea: {
         textAlignVertical: 'top',

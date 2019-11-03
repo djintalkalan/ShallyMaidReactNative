@@ -6,6 +6,7 @@ import { Images } from '../utils'
 export const Constants = {
   color: {
     primary: "#2dc137",  // '#ff9900',//'#A51A2D',//'#00EF00',//'#A51A2D', #
+    //primary: "#02159B", 
     primaryDark: '#ff9900',//'#8D1E30',
     accentColor: '#FF4081',
     drakgray: '#92929A',
@@ -64,7 +65,8 @@ export const Constants = {
   URL: {
     HOME_URL: 'http://192.168.0.102',
     STAGING_URL: 'http://192.168.0.102',
-    //baseURL: 'http://192.168.0.102',
+    //baseURL: 'http://192.168.0.101',
+    //  baseURL: 'http://192.168.43.78',
     baseURL: 'https://kartforu.com/deepak',
     assets: '/shally_maid_api/assets/',
     icons: 'icons/',
@@ -77,6 +79,7 @@ export const Constants = {
     updatePassword: "customer/update_password.php",
     placeOrder: "orders/create.php",
     getOrderList: "orders/read_by_customer.php",
+    getOrderDetail: "orders/read_single.php",
     signUp: "customer/create.php"
   },
 
@@ -148,14 +151,11 @@ export const Constants = {
   },
 
   ORDER_STATUS: {
-    processing_0: 0,
-    processing_1: 1,
-    preparing_2: 2,
-    preparing_3: 3,
-    on_the_way_4: 4,
-    delivered_5: 5,
-    cancelled_6: 6,
-    confirmed_7: 7,
+    processing: 1,
+    seenbyadmin: 2,
+    acceptedbyadmin: 3,
+    completed: 4,
+    cancelled: 5
   },
 
 

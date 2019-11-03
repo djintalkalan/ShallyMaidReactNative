@@ -62,8 +62,8 @@ export default class Category extends Component {
 			<Ripple
 				style={styles.flatListTouch}
 				onPress={() => { this.cardPressed(item, index) }}>
-				<Image source={item.img ? { uri: item.img } : Images.shallymaid_logo}
-					style={{ width: 60, height: 40 }} />
+				<Image source={item.img ? { uri:Constants.URL.baseURL + Constants.URL.assets + Constants.URL.img + item.img } : Images.shallymaid_logo}
+					style={{ width: 50, height: 50,resizeMode:'contain' }} />
 
 				<View style={{ paddingLeft: 15, }}>
 					<TextBold

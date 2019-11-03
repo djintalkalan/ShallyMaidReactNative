@@ -7,7 +7,7 @@ import { Constants, Images, GlobalStyle, strings } from '../../../utils';
 import { TextHeading, TextLite, TextRegular, } from '../../custom/text'
 import Ripple from 'react-native-material-ripple';
 import NavigationService from '../../../services/NavigationServices';
-import { getMyOrderApi } from '../../../services/APIService'
+import { getOrderDetailsApi } from '../../../services/APIService'
 import { ScrollView } from 'react-native-gesture-handler';
 
 class OrderDetail extends Component {
@@ -21,9 +21,50 @@ class OrderDetail extends Component {
 		super(props)
 		this.state = {
 			orderObject: null,
+			isLoading: false
 		}
 	}
 
+	callorderDetailApi(id) {
+		if (!id) { return }
+		const param = {
+			id: id
+		}
+
+		this.setState({
+			isLoading: true,
+		})
+
+		let url = Constants.URL.baseURL + '/' + Constants.URL.vesrion + '/' + Constants.URL.getOrderDetail
+
+		getOrderDetailsApi(url, param).then(res => {
+
+			if (res && res.success && res.data) {
+
+				this.setState({
+					orderObject: res.data,
+					isLoading: false
+				})
+			} else {
+				this.setState({
+					isLoading: false,
+				})
+				if (res && res.error) {
+					alert(res.error)
+				}
+			}
+
+		}).catch(err => {
+			this.setState({
+				isLoading: false,
+			})
+			setTimeout(() => {
+				if (err) {
+					//alert(JSON.stringify(err));
+				}
+			}, 100);
+		});
+	}
 
 
 	onBackClick = () => {
@@ -49,16 +90,18 @@ class OrderDetail extends Component {
 		}
 
 	}
-
-
 	calculateStatus(id) {
 		switch (parseInt(id)) {
-			case Constants.ORDER_STATUS.processing_1:
-				return strings.processing
-			case Constants.ORDER_STATUS.preparing_2:
-				return "Seen"
-			case Constants.ORDER_STATUS.preparing_3:
-				return "Proccessed"
+			case Constants.ORDER_STATUS.processing:
+				return <TextHeading title={strings.processing} textStyle={styles.textAmountProcessing} />
+			case Constants.ORDER_STATUS.seenbyadmin:
+				return <TextHeading title={"Seen by Admin"} textStyle={styles.textAmountProcessing} />
+			case Constants.ORDER_STATUS.acceptedbyadmin:
+				return <TextHeading title={"Accepted by Admin"} textStyle={styles.textAmountProcessing} />
+			case Constants.ORDER_STATUS.completed:
+				return <TextHeading title={"Completed"} textStyle={styles.textAmountProcessing} />
+			case Constants.ORDER_STATUS.cancelled:
+				return <TextHeading title={"Cancelled"} textStyle={styles.textAmountProcessing} />
 		}
 	}
 	componentDidMount() {
@@ -68,7 +111,7 @@ class OrderDetail extends Component {
 		if (navigateFrom == "MyOrders") {
 			this.setState({
 				orderObject: orderObject
-			})
+			}, () => { this.callorderDetailApi(orderObject.order_id) })
 		}
 	}
 	render() {

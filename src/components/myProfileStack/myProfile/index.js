@@ -135,11 +135,11 @@ class MyProfile extends Component {
 
  */}
 
-					<View style={{ width: 100, height: 100, borderRadius: 50, backgroundColor: 'black', marginVertical: 25 }} />
+					<View style={{ width: 100, height: 100, borderRadius: 50, backgroundColor: 'transparent', marginVertical: 25 }} />
 
 					<View style={styles.myProfileListView} >
 						<View style={styles.profileItem} >
-							<Image style={styles.inputIcon} source={Images.ic_my_profile_primary} />
+							<Image style={styles.inputIcon} source={Images.ic_phone_primary} />
 							<TextRegular textStyle={styles.textProfileItem} title={this.props.userData.cust_phone} />
 						</View>
 						<View style={styles.verticalLine} />
@@ -149,7 +149,7 @@ class MyProfile extends Component {
 						</View>
 						<View style={styles.verticalLine} />
 						<View style={styles.profileItem} >
-							<Image style={styles.inputIcon} source={Images.ic_my_profile_primary} />
+							<Image style={styles.inputIcon} source={Images.ic_lock_primary} />
 							<TextRegular textStyle={styles.textProfileItem} title={"*******"} />
 						</View>
 					</View>

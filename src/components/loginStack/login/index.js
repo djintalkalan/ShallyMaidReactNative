@@ -98,6 +98,7 @@ class Login extends Component {
                     }
                 })
             } else {
+                
                 this.setState({
                     isLoading: false,
                 })
@@ -107,12 +108,27 @@ class Login extends Component {
             }
 
         }).catch(err => {
+            const loginData = {
+                "id": "1",
+                "cust_name": "Deepak Jaglan",
+                "cust_age": "",
+                "cust_img": "",
+                "cust_phone": "9588558818",
+                "cust_status": "1",
+                "addedon": "",
+                "updatedon": ""
+            }
             this.setState({
                 isLoading: false,
             })
             setTimeout(() => {
                 if (err) {
                     alert(JSON.stringify(err));
+                    // AsyncStorage.setItem(Constants.STORAGE_KEY.userData, JSON.stringify(loginData));
+                    // AsyncStorage.setItem(Constants.STORAGE_KEY.isLogin, JSON.stringify(true));
+                    // this.props.userDataAction(loginData)
+                    // this.props.isLoginAction(true)
+                    // NavigationService.navigate("MainStack")
                 }
             }, 100);
         });
